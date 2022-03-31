@@ -1,7 +1,10 @@
 import classNames from 'classnames'
 import { Mesh } from 'three'
-import { Canvas, MeshProps, useFrame } from '@react-three/fiber'
-import { useRef, useState } from 'react'
+import { Canvas, MeshProps, useFrame, useLoader } from '@react-three/fiber'
+import { Component, ReactChildren, Suspense, useRef, useState } from 'react'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
+import { ErrorBoundary } from 'react-error-boundary'
+import { Environment } from '@react-three/drei'
 
 
 export const Scene = ({
@@ -14,12 +17,18 @@ export const Scene = ({
   // using classNames() allows to combine className from outside with other
   //  classes defined in this file
   return <div className={classNames(className)}>
-    <Canvas frameloop={loop ? 'always' : 'never'}>
-      <ambientLight />
-      <pointLight position={[10, 10, 10]} />
-      <Box position={[-1.2, 0, 0]} />
-      <Box position={[1.2, 0, 0]} />
-    </Canvas>
+    <ErrorBoundary fallback={<div>error</div>}>
+      <Suspense fallback={<div>loading</div>}>
+        <Canvas frameloop={loop ? 'always' : 'never'}>
+          {/* <ambientLight />
+          <pointLight position={[10, 10, 10]} />
+          <Box position={[-1.2, 0, 0]} />
+          <Box position={[1.2, 0, 0]} /> */}
+          <Gltf src="https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Sponza/glTF/Sponza.gltf" />
+          <Environment preset="sunset" background />
+        </Canvas>
+      </Suspense>
+    </ErrorBoundary>
   </div>
 }
 
@@ -49,6 +58,14 @@ const Box = (props: MeshProps) => {
       <boxGeometry args={[1, 1, 1]} />
       <meshStandardMaterial color={hovered ? 'hotpink' : 'orange'} />
     </mesh>
+  )
+}
+
+
+const Gltf = ({ src }: { src: string }) => {
+  const gltf = useLoader(GLTFLoader, src)
+  return (
+    <primitive object={gltf.scene} />
   )
 }
 

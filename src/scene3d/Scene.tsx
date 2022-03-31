@@ -1,6 +1,6 @@
 import classNames from 'classnames'
-import * as THREE from 'three'
-import { Canvas, useFrame } from '@react-three/fiber'
+import { Mesh } from 'three'
+import { Canvas, MeshProps, useFrame } from '@react-three/fiber'
 import { useRef, useState } from 'react'
 
 
@@ -25,8 +25,8 @@ export const Scene = ({
 
 
 // copied from https://github.com/pmndrs/react-three-fiber
-const Box = (props: JSX.IntrinsicElements['mesh']) => {
-  const ref = useRef<THREE.Mesh>(null!)
+const Box = (props: MeshProps) => {
+  const ref = useRef<Mesh>(null!)
   
   const [hovered, setHovered] = useState(false)
   const [clicked, setClicked] = useState(false)

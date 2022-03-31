@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Scene } from 'scene3d/Scene'
-import { SceneState } from 'model/SceneState'
+import * as model from 'model/model'
 import logo from './logo.svg'
 import styles from './App.module.css'
 
@@ -8,7 +8,7 @@ export const App = () => {
   // pause looping during development for performance
   const [loop, setLoop] = useState(true)
   
-  const [scene, setScene] = useState<SceneState>(null!)
+  const [scene, setScene] = useState<model.Scene>(null!)
   
   return (
     <div className={styles.app}>

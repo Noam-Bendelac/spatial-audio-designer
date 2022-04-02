@@ -14,25 +14,16 @@ export const App = () => {
     <div className={styles.app}>
       <Scene loop={loop} className={styles.canvas} />
       <div className={styles.sidebar}>
-        {/* create-react-app default app */}
-        <header className={styles.appHeader}>
-          <img src={logo} className={styles.appLogo} alt="logo" />
+        <header className={styles.title}>
           <p>
-            Edit <code>src/App.tsx</code> and save to reload.
+            Object Options
           </p>
-          <a
-            className={styles.appLink}
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
           <button onClick={() => setLoop(curr => !curr)}>
-            Loop?
+            Loop? (Temp)
           </button>
         </header>
       </div>
+      
     </div>
   )
 }

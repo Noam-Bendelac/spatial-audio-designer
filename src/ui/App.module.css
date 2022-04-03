@@ -33,7 +33,7 @@
   background-color: #282c34;
   height: 100vh;
   box-sizing: border-box;
-  padding: 20px;
+  padding: 10px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -41,5 +41,10 @@
   /* justify-content: center; */
   font-size: calc(10px + 2vmin);
   color: white;
+}
+
+.basic {
+  font-size:20px;
+  /* padding: 0px; */
 }
 

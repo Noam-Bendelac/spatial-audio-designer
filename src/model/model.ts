@@ -1,4 +1,4 @@
-import { Mesh, Vector3 } from 'three'
+import { Vector3 } from 'three'
 
 // it is recommended to import this file as `import * as model from '...model'
 // to avoid name conflicts
@@ -27,8 +27,8 @@ export interface SoundSource extends DOF5 {
   readonly innerLength: Number,
   readonly innerWidth: Number,
   
-  // TODO maybe an index/id/filename in assets?
-  readonly soundClip: number | null,
+  // filename of asset; TODO might change
+  readonly soundClip: string | null,
   readonly level: Number,
   readonly speed: Number,
   readonly start: Number,
@@ -45,8 +45,8 @@ type ConvolutionSpace =
 
 export interface Object3D extends DOF6 {
   readonly name: string,
-  // TODO probably have to change this, maybe an index/id/filename in assets?
-  readonly mesh: Mesh | null,
+  // filename of asset; TODO might change
+  readonly mesh: string | null,
 }
 
 

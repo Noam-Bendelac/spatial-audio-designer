@@ -1,7 +1,11 @@
 import classNames from 'classnames'
-import { Mesh } from 'three'
-import { Canvas, MeshProps, useFrame } from '@react-three/fiber'
-import { useRef, useState } from 'react'
+import { Loader, Mesh } from 'three'
+import { Canvas, MeshProps, useFrame, useLoader } from '@react-three/fiber'
+import { Suspense, useRef, useState } from 'react'
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'
+import { models3D } from 'assets'
+import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader'
+
 
 
 export const Scene = ({
@@ -11,16 +15,48 @@ export const Scene = ({
   loop: boolean,
   className?: string,
 }) => {
+  
+  
   // using classNames() allows to combine className from outside with other
   //  classes defined in this file
   return <div className={classNames(className)}>
     <Canvas frameloop={loop ? 'always' : 'never'}>
-      <ambientLight />
-      <pointLight position={[10, 10, 10]} />
-      <Box position={[-1.2, 0, 0]} />
-      <Box position={[1.2, 0, 0]} />
+      <Suspense fallback={null}>
+      <SceneContents />
+      </Suspense>
     </Canvas>
   </div>
+}
+
+
+const SceneContents = () => {
+  const materials = useLoader(MTLLoader, "/assets/3D-models/fox/low-poly-fox-by-pixelmannen.mtl")
+  const obj = useLoader(OBJLoader, models3D[0].url, (loader: Loader & {setMaterials?:any}) => {
+    materials.preload();
+    console.log(loader, loader.setMaterials)
+    loader.setMaterials(materials);
+    
+  })
+  // const obj = useLoader(OBJLoader, models3D[0].url, (loader) => {
+  //   materials.preload();
+  //   loader.setMaterials(materials);
+  // })
+  
+  return <>
+    <axesHelper />
+    <ambientLight />
+    <pointLight position={[10, 10, 10]} />
+    {/* <Box position={[0, 0, 0]} /> */}
+    {/* <Box position={[2, 0, 0]} />
+    <Box position={[0, 4, 0]} />
+    <Box position={[0, 0, -6]} /> */}
+    {/* <Box position={[1.2, 0, 0]} /> */}
+    <Suspense fallback={<Box position={[1.2, 0, 0]} />}>
+      <primitive object={obj} position={[30,-20,-120]} />
+      
+    </Suspense>
+    
+  </>
 }
 
 

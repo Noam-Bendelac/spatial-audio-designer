@@ -9,7 +9,8 @@ export const App = () => {
   // pause looping during development for performance
   const [loop, setLoop] = useState(true)
 
-  const [hideObjectMenu, setHideObjectMenu] = useState(true);
+  const [hideObjectMenu, setHideObjectMenu] = useState(false);
+  const [hideSoundMenu, setHideSoundMenu] = useState(false);
   
   // placeholder initial scene
   const [scene, setScene] = useState<model.Scene>(() => ({
@@ -52,18 +53,34 @@ export const App = () => {
   
   // eventually this will be the currently selected (clicked) scene element
   const selectedElement = scene.object3Ds[0]
+  const selectedSound = scene.soundSources[0]
+
+  //
+  const [inputValue, setInputValue] = useState<number>(0);
   
   return (
     <div className={styles.app}>
       <Scene loop={loop} className={styles.canvas} />
-      <button onClick={() => hideObjectMenu ? setHideObjectMenu(false) : setHideObjectMenu(true)}>Object Menu</button>
+
+      <button className={styles.buttons} onClick={() => hideObjectMenu ? setHideObjectMenu(false) : setHideObjectMenu(true)}>Object Menu</button>
+      <button className={styles.buttons} onClick={() => hideSoundMenu ? setHideSoundMenu(false) : setHideSoundMenu(true)}>Sound Source Menu</button>
+      {/*object menu */}
       <div className={hideObjectMenu ? styles.sidebar : styles.invisible}>
         <header className={styles.title}>
           <p>
             Object Options
           </p>
           <p className={styles.basic}>X:
-            <input defaultValue={selectedElement.position.x} type='number' placeholder='X' required/>
+            <input defaultValue={selectedElement.position.x} type='number' placeholder='X' required
+              // onChange={(
+              //   ev: React.ChangeEvent<HTMLInputElement>,
+              // ): void => {
+              //   setInputValue(
+              //       parseInt(ev.target.defaultValue, 10),
+              //   );
+              //   console.log(selectedElement.position.x);
+              // }}
+              />
           </p>
           <p className={styles.basic}>Y:
             <input defaultValue={selectedElement.position.y} type='number' placeholder='Y' required/>
@@ -85,6 +102,46 @@ export const App = () => {
           </button>
         </header> 
       </div>
+
+      {/* sound menu */}
+      <div className={hideSoundMenu ? styles.sidebar : styles.invisible}>
+        <header className={styles.title}>
+          <p>
+            Sound Options
+          </p>
+          <p className={styles.basic}>X:
+            <input defaultValue={selectedSound.position.x} type='number' placeholder='X' required/>
+          </p>
+          <p className={styles.basic}>Y:
+            <input defaultValue={selectedSound.position.y} type='number' placeholder='Y' required/>
+          </p>
+          <p className={styles.basic}>Z:
+            <input defaultValue={selectedSound.position.z} type='number' placeholder='Z' required/>
+          </p>
+          <p className={styles.basic}>Yaw:
+            <input defaultValue={selectedSound.orientation.yaw} type='number' placeholder='Yaw' required/>
+          </p>
+          <p className={styles.basic}>Pitch:
+            <input defaultValue={selectedSound.orientation.pitch} type='number' placeholder='Pitch' required/>
+          </p>
+          <p className={styles.basic}>Inner Length:
+            <input defaultValue={selectedSound.innerLength.valueOf()} type='number' placeholder='Roll' required/>
+          </p>
+          <p className={styles.basic}>Inner Width:
+            <input defaultValue={selectedSound.innerWidth.valueOf()} type='number' placeholder='Roll' required/>
+          </p>
+          <p className={styles.basic}>Outer Length:
+            <input defaultValue={selectedSound.outerLength.valueOf()} type='number' placeholder='Roll' required/>
+          </p>
+          <p className={styles.basic}>Outer Width:
+            <input defaultValue={selectedSound.outerWidth.valueOf()} type='number' placeholder='Roll' required/>
+          </p>
+          <button onClick={() => setLoop(curr => !curr)}>
+            Loop? (Temp)
+          </button>
+        </header> 
+      </div>
+      
       
     </div>
   )

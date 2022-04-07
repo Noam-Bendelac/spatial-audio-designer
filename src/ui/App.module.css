@@ -44,11 +44,16 @@
 }
 
 .basic {
-  font-size:20px;
+  font-size:16px;
   /* padding: 0px; */
 }
 
 .invisible{
   visibility:hidden;
+}
+
+.buttons{
+  height:50px;
+  width:100px;
 }
 

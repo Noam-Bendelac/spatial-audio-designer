@@ -48,6 +48,9 @@ export const App = () => {
     }],
   }))
   
+  // eventually this will be the currently selected (clicked) scene element
+  const selectedElement = scene.object3Ds[0]
+  
   return (
     <div className={styles.app}>
       <Scene loop={loop} className={styles.canvas} />
@@ -57,7 +60,8 @@ export const App = () => {
             Object Options
           </p>
           <p className={styles.basic}>X:
-            <input name='x' id='x' type='number' placeholder='X' required/>
+            {/* name and id properties only needed for forms with a submit button */}
+            <input value={selectedElement.position.x} type='number' placeholder='X' required/>
           </p>
           <p className={styles.basic}>Y:
             <input name='y' id='y' type='number' placeholder='Y' required/>
@@ -74,9 +78,6 @@ export const App = () => {
           <p className={styles.basic}>Roll:
             <input name='roll' id='roll' type='number' placeholder='Roll' required/>
           </p>
-          <button>
-            Save Changes
-          </button>
           <button onClick={() => setLoop(curr => !curr)}>
             Loop? (Temp)
           </button>

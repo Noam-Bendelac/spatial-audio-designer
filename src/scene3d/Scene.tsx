@@ -21,6 +21,7 @@ export const Scene = ({
       <Box position={[1.2, 0, 0]} /> */}
       <GizmoCyl position={[1, 0, 0]}/>
       <GizmoCone position={[-1, 0, 0]}/>
+      <GizmoRotate position={[0, 1, 0]}/>
     </Canvas>
   </div>
 }
@@ -111,3 +112,30 @@ const GizmoCone = (props: MeshProps) => {
   )
 }
 
+//messing around
+const GizmoRotate = (props: MeshProps) => {
+  const ref = useRef<Mesh>(null!)
+
+  const [hovered, setHovered] = useState(false)
+  const [clicked, setClicked] = useState(false)
+  
+  useFrame(() => {
+    ref.current.rotation.x += 0.01
+    ref.current.rotation.y += 0.01
+  })
+  
+  return (
+    <mesh
+      {...props}
+      ref={ref}
+      scale={clicked ? 1.5 : 1}
+      
+      onClick={() => setClicked(!clicked)}
+      onPointerOver={() => setHovered(true)}
+      onPointerOut={() => setHovered(false)}
+    >
+      <torusGeometry args={[1, .05, 16, 40]} />
+      <meshStandardMaterial color={hovered ? 'hotpink' : 'red'} />
+    </mesh>
+  )
+}

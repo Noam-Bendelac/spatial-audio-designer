@@ -17,8 +17,9 @@ export const Scene = ({
     <Canvas frameloop={loop ? 'always' : 'never'}>
       <ambientLight />
       <pointLight position={[10, 10, 10]} />
-      <Box position={[-1.2, 0, 0]} />
-      <Box position={[1.2, 0, 0]} />
+      {/* <Box position={[-1.2, 0, 0]} />
+      <Box position={[1.2, 0, 0]} /> */}
+      <GizmoCyl position={[1, 0, 0]}/>
     </Canvas>
   </div>
 }
@@ -51,4 +52,61 @@ const Box = (props: MeshProps) => {
     </mesh>
   )
 }
+
+
+//messing around
+const GizmoCyl = (props: MeshProps) => {
+  const ref = useRef<Mesh>(null!)
+
+  const [hovered, setHovered] = useState(false)
+  const [clicked, setClicked] = useState(false)
+  
+  useFrame(() => {
+    ref.current.rotation.x += 0.01
+    ref.current.rotation.y += 0.01
+  })
+  
+  return (
+    <mesh
+      {...props}
+      ref={ref}
+      scale={clicked ? 1.5 : 1}
+      
+      onClick={() => setClicked(!clicked)}
+      onPointerOver={() => setHovered(true)}
+      onPointerOut={() => setHovered(false)}
+    >
+      <cylinderGeometry args={[.25, .25, 1, 20, 1]} />
+      <meshStandardMaterial color={hovered ? 'hotpink' : 'orange'} />
+    </mesh>
+  )
+}
+
+// //messing around
+// const GizmoCone = (props: MeshProps) => {
+//   const ref = useRef<Mesh>(null!)
+
+//   const [hovered, setHovered] = useState(false)
+//   const [clicked, setClicked] = useState(false)
+  
+//   useFrame(() => {
+//     ref.current.rotation.x += 0.01
+//     ref.current.rotation.y += 0.01
+//   })
+  
+//   return (
+//     <mesh
+//       {...props}
+//       ref={ref}
+//       scale={clicked ? 1.5 : 1}
+      
+//       onClick={() => setClicked(!clicked)}
+//       onPointerOver={() => setHovered(true)}
+//       onPointerOut={() => setHovered(false)}
+//     >
+//       <cylinderGeometry args={[.25, .25, 1, 20, 1]} />
+//       <meshStandardMaterial color={hovered ? 'hotpink' : 'orange'} />
+//     </mesh>
+//   )
+// }
 

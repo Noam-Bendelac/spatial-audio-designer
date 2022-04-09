@@ -14,7 +14,6 @@ export const App = () => {
     <div className={styles.app}>
       <Scene loop={loop} className={styles.canvas} />
       <div className={styles.sidebar}>
-        {/* create-react-app default app */}
         <header className={styles.appHeader}>
           <img src={logo} className={styles.appLogo} alt="logo" />
           <p>
@@ -30,7 +29,7 @@ export const App = () => {
           </a>
           <button onClick={() => setLoop(curr => !curr)}>
             Loop?
-          </button>
+          </button> 
         </header>
       </div>
     </div>

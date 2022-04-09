@@ -2,7 +2,7 @@ import classNames from 'classnames'
 import { Mesh } from 'three'
 import { Canvas, MeshProps, useFrame } from '@react-three/fiber'
 import { useRef, useState } from 'react'
-
+ 
 
 export const Scene = ({
   loop,

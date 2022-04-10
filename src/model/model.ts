@@ -13,7 +13,6 @@ import { Vector3 } from 'three'
 // it does not include all application state, such as editing camera location
 export interface Scene {
   readonly soundSources: SoundSource[],
-  readonly object3Ds: Object3D[],
   readonly viewerCameraStart: DOF5,
 }
 
@@ -40,14 +39,6 @@ export interface SoundSource extends DOF5 {
 type ConvolutionSpace =
   | 'none'
   | 'cathedral'
-
-
-
-export interface Object3D extends DOF6 {
-  readonly name: string,
-  // filename of asset; TODO might change
-  readonly mesh: string | null,
-}
 
 
 

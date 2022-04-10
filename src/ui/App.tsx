@@ -18,16 +18,6 @@ export const App = () => {
         pitch: 0,
       },
     },
-    object3Ds: [{
-      name: 'object 1',
-      position: new Vector3(5,5,-20),
-      orientation: {
-        yaw: 0,
-        pitch: 0,
-        roll: 0,
-      },
-      mesh: null,
-    }],
     soundSources: [{
       name: 'speaker 1',
       position: new Vector3(-5,-5,-20),
@@ -49,7 +39,7 @@ export const App = () => {
   }))
   
   // eventually this will be the currently selected (clicked) scene element
-  const selectedElement = scene.object3Ds[0]
+  const selectedElement = scene.soundSources[0]
   
   return (
     <div className={styles.app}>

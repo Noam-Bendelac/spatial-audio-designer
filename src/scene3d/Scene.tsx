@@ -1,7 +1,10 @@
 import classNames from 'classnames'
-import { Mesh } from 'three'
-import { Canvas, MeshProps, useFrame } from '@react-three/fiber'
-import { useRef, useState } from 'react'
+import { Loader, Mesh } from 'three'
+import { Canvas, MeshProps, useFrame, useLoader } from '@react-three/fiber'
+import { Suspense, useRef, useState } from 'react'
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'
+import { speaker } from 'assets'
+
 
 
 export const Scene = ({
@@ -11,16 +14,38 @@ export const Scene = ({
   loop: boolean,
   className?: string,
 }) => {
+  
+  
   // using classNames() allows to combine className from outside with other
   //  classes defined in this file
   return <div className={classNames(className)}>
     <Canvas frameloop={loop ? 'always' : 'never'}>
-      <ambientLight />
-      <pointLight position={[10, 10, 10]} />
-      <Box position={[-1.2, 0, 0]} />
-      <Box position={[1.2, 0, 0]} />
+      <Suspense fallback={null}>
+      <SceneContents />
+      </Suspense>
     </Canvas>
   </div>
+}
+
+
+const SceneContents = () => {
+  const obj = useLoader(OBJLoader, speaker)
+  
+  return <>
+    <axesHelper />
+    <ambientLight />
+    <pointLight position={[10, 10, 10]} />
+    {/* <Box position={[0, 0, 0]} /> */}
+    {/* <Box position={[2, 0, 0]} />
+    <Box position={[0, 4, 0]} />
+    <Box position={[0, 0, -6]} /> */}
+    {/* <Box position={[1.2, 0, 0]} /> */}
+    <Suspense fallback={<Box position={[1.2, 0, 0]} />}>
+      <primitive object={obj} position={[30,-20,-120]} />
+      
+    </Suspense>
+    
+  </>
 }
 
 

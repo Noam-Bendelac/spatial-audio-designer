@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 import { Mesh } from 'three'
 import { Canvas, MeshProps, useFrame, useThree } from '@react-three/fiber'
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import * as model from 'model/model'
 import { SoundSource } from 'scene3d/SoundSource'
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
@@ -25,10 +25,10 @@ export const Scene = ({
     <Canvas frameloop={loop ? 'always' : 'never'}>
       <SceneContents scene={scene} />
       <CameraController />
-            <ambientLight />
-            <pointLight position={[10, 10, 10]} />
-            <Box position={[-1.2, 0, 0]} />
-            <Box position={[1.2, 0, 0]} />
+      <ambientLight />
+      <pointLight position={[10, 10, 10]} />
+      <Box position={[-1.2, 0, 0]} />
+      <Box position={[1.2, 0, 0]} />
     </Canvas>
   </div>
 }
@@ -71,10 +71,6 @@ const SceneContents = ({ scene }: { scene: model.Scene }) => {
     </Suspense> */}
   </>
 }
-
-
-
-
 
     // copied from https://github.com/pmndrs/react-three-fiber
     const Box = (props: MeshProps) => {

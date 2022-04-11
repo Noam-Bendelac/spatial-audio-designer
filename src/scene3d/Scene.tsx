@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import { Mesh } from 'three'
-import { Canvas, MeshProps, useFrame } from '@react-three/fiber'
+import { Canvas, MeshProps, useFrame, useThree } from '@react-three/fiber'
 import { useRef, useState } from 'react'
 import * as model from 'model/model'
 import { SoundSource } from 'scene3d/SoundSource'

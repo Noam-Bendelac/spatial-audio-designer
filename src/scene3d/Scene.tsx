@@ -1,16 +1,18 @@
 import classNames from 'classnames'
 import { Mesh } from 'three'
-import { Canvas, MeshProps, useFrame, useLoader } from '@react-three/fiber'
-import { Suspense, useRef, useState } from 'react'
-import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'
-import { speaker } from 'assets'
+import { Canvas, MeshProps, useFrame } from '@react-three/fiber'
+import { useRef, useState } from 'react'
+import * as model from 'model/model'
+import { SoundSource } from 'scene3d/SoundSource'
 
 
 
 export const Scene = ({
+  scene,
   loop,
   className,
 }: {
+  scene: model.Scene,
   loop: boolean,
   className?: string,
 }) => {
@@ -20,34 +22,33 @@ export const Scene = ({
   //  classes defined in this file
   return <div className={classNames(className)}>
     <Canvas frameloop={loop ? 'always' : 'never'}>
-      <SceneContents />
+      <SceneContents scene={scene} />
     </Canvas>
   </div>
 }
 
 
-const SceneContents = () => {
+const SceneContents = ({ scene }: { scene: model.Scene }) => {
   
   return <>
+    {/* static lights */}
     <ambientLight />
     <pointLight position={[10, 10, 10]} />
+    {/* boxes for testing, will get rid of these */}
     <Box position={[-1.2, 0, 0]} />
     <Box position={[1.2, 0, 0]} />
-    <Suspense fallback={<Box position={[0, 0, -10]} />}>
+    {/* TODO environment/background */}
+    
+    {/* this loop *may* benefit from being wrapped in a simple component */}
+    {scene.soundSources.map(soundSource => <SoundSource soundSource={soundSource} />)}
+    
+    {/* <Suspense fallback={<Box position={[0, 0, -10]} />}>
       <PlaceholderSpeaker />
-    </Suspense>
+    </Suspense> */}
   </>
 }
 
 
-// due to the way the useLoader hook works, it seems this component suspends and
-// must have a <Suspense> *outside* this component
-const PlaceholderSpeaker = () => {
-  const obj = useLoader(OBJLoader, speaker)
-  
-  return <primitive object={obj} position={[30,-20,-120]} />
-    
-}
 
 
 // copied from https://github.com/pmndrs/react-three-fiber

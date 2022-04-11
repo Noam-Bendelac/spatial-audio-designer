@@ -20,7 +20,7 @@ export const App = () => {
     },
     soundSources: [{
       name: 'speaker 1',
-      position: new Vector3(-5,-5,-20),
+      position: new Vector3(-5,-5,-10),
       orientation: {
         yaw: 0,
         pitch: 0,
@@ -43,7 +43,7 @@ export const App = () => {
   
   return (
     <div className={styles.app}>
-      <Scene loop={loop} className={styles.canvas} />
+      <Scene scene={scene} loop={loop} className={styles.canvas} />
       <div className={styles.sidebar}>
         <header className={styles.title}>
           <p>

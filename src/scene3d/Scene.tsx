@@ -1,5 +1,5 @@
 import classNames from 'classnames'
-import { Mesh } from 'three'
+import { Mesh, Vector3 } from 'three'
 import { Canvas, MeshProps, useFrame, useThree } from '@react-three/fiber'
 import { useRef, useState, useEffect } from 'react'
 import * as model from 'model/model'
@@ -27,8 +27,7 @@ export const Scene = ({
       <CameraController />
       <ambientLight />
       <pointLight position={[10, 10, 10]} />
-      <Box position={[-1.2, 0, 0]} />
-      <Box position={[1.2, 0, 0]} />
+      {scene.soundSources.map(soundSource => <SoundSource soundSource={soundSource} />)}
     </Canvas>
   </div>
 }
@@ -56,15 +55,9 @@ const SceneContents = ({ scene }: { scene: model.Scene }) => {
   
   return <>
     {/* static lights */}
-    <ambientLight />
-    <pointLight position={[10, 10, 10]} />
-    {/* boxes for testing, will get rid of these */}
-    <Box position={[-1.2, 0, 0]} />
-    <Box position={[1.2, 0, 0]} />
     {/* TODO environment/background */}
     
     {/* this loop *may* benefit from being wrapped in a simple component */}
-    {scene.soundSources.map(soundSource => <SoundSource soundSource={soundSource} />)}
     
     {/* <Suspense fallback={<Box position={[0, 0, -10]} />}>
       <PlaceholderSpeaker />
@@ -73,29 +66,32 @@ const SceneContents = ({ scene }: { scene: model.Scene }) => {
 }
 
     // copied from https://github.com/pmndrs/react-three-fiber
-    const Box = (props: MeshProps) => {
+    export const AudioField = (props: MeshProps) => {
         const ref = useRef<Mesh>(null!)
         
         const [hovered, setHovered] = useState(false)
         const [clicked, setClicked] = useState(false)
         
         useFrame(() => {
-            ref.current.rotation.x += 0.01
-            ref.current.rotation.y += 0.01
+            // ref.current.rotation.x += 0.01
+            // ref.current.rotation.y += 0.01
         })
         
         return (
-            <mesh
+            <mesh 
+            
             {...props}
             ref={ref}
             scale={clicked ? 1.5 : 1}
+            rotation = {[Math.PI, 0, 0]}            
             
             onClick={() => setClicked(!clicked)}
             onPointerOver={() => setHovered(true)}
             onPointerOut={() => setHovered(false)}
             >
-            <boxGeometry args={[1, 1, 1]} />
-            <meshStandardMaterial color={hovered ? 'hotpink' : 'orange'} />
+            <coneGeometry args={[4, 3, 30]} />
+            <meshPhongMaterial color='green' opacity={0.1} transparent={true}/>
+            {/* <meshStandardMaterial color={hovered ? 'hotpink' : 'orange'} /> */}
             </mesh>
         )
     }

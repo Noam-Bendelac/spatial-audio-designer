@@ -1,13 +1,13 @@
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'
 import { speaker } from 'assets'
-import { useLoader } from '@react-three/fiber'
+import { MeshProps, useLoader } from '@react-three/fiber'
 import { useEffect, useMemo } from 'react'
 import { Color, Group, Mesh, MeshPhongMaterial } from 'three'
 
 
 // due to the way the useLoader hook works, it seems this component suspends and
 // must have a <Suspense> *outside* this component
-export const PlaceholderSpeaker = () => {
+export const PlaceholderSpeaker = (props: MeshProps) => {
   const obj = useLoader(OBJLoader, speaker)
   
   // test to color each part of the mesh a different material
@@ -22,6 +22,7 @@ export const PlaceholderSpeaker = () => {
   
   // test to put a new single material on the whole geometry
   const newMesh = useMemo(() => {
+    
     const group: Group = obj
     const oldMesh = group.children[0] as Mesh
     const geometry = oldMesh.geometry
@@ -38,7 +39,7 @@ export const PlaceholderSpeaker = () => {
   return <primitive
     object={obj}
     // object={newMesh}
-    scale={0.05}
+    scale={0.01}
   />
     
 }

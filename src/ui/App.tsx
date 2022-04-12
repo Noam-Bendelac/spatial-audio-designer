@@ -8,6 +8,9 @@ import { Vector3 } from 'three'
 export const App = () => {
   // pause looping during development for performance
   const [loop, setLoop] = useState(true)
+
+  const [hideObjectMenu, setHideObjectMenu] = useState(false);
+  const [hideSoundMenu, setHideSoundMenu] = useState(false);
   
   // placeholder initial scene
   const [scene, setScene] = useState<model.Scene>(() => ({
@@ -18,9 +21,19 @@ export const App = () => {
         pitch: 0,
       },
     },
+    object3Ds: [{
+      name: 'object 1',
+      position: new Vector3(5,5,-20),
+      orientation: {
+        yaw: 0,
+        pitch: 0,
+        roll: 0,
+      },
+      mesh: null,
+    }],
     soundSources: [{
       name: 'speaker 1',
-      position: new Vector3(-5,-5,-10),
+      position: new Vector3(-5,-5,-20),
       orientation: {
         yaw: 0,
         pitch: 0,
@@ -39,34 +52,89 @@ export const App = () => {
   }))
   
   // eventually this will be the currently selected (clicked) scene element
-  const selectedElement = scene.soundSources[0]
+  // const selectedElement = scene.object3Ds[0]
+  const selectedSound = scene.soundSources[0]
+
+  //
+  const [inputValue, setInputValue] = useState<number>(0);
   
   return (
     <div className={styles.app}>
       <Scene scene={scene} loop={loop} className={styles.canvas} />
-      <div className={styles.sidebar}>
+
+      {/* <button className={styles.buttons} onClick={() => hideObjectMenu ? setHideObjectMenu(false) : setHideObjectMenu(true)}>Object Menu</button> */}
+      <button className={styles.buttons} onClick={() => hideSoundMenu ? setHideSoundMenu(false) : setHideSoundMenu(true)}>Sound Source Menu</button>
+      {/* object menu
+      <div className={hideObjectMenu ? styles.sidebar : styles.invisible}>
         <header className={styles.title}>
           <p>
             Object Options
           </p>
           <p className={styles.basic}>X:
-            {/* name and id properties only needed for forms with a submit button */}
-            <input value={selectedElement.position.x} type='number' placeholder='X' required/>
+            <input defaultValue={selectedElement.position.x} type='number' placeholder='X' required
+              // onChange={(
+              //   ev: React.ChangeEvent<HTMLInputElement>,
+              // ): void => {
+              //   setInputValue(
+              //       parseInt(ev.target.defaultValue, 10),
+              //   );
+              //   console.log(selectedElement.position.x);
+              // }}
+              />
           </p>
           <p className={styles.basic}>Y:
-            <input name='y' id='y' type='number' placeholder='Y' required/>
+            <input defaultValue={selectedElement.position.y} type='number' placeholder='Y' required/>
           </p>
           <p className={styles.basic}>Z:
-            <input name='z' id='z' type='number' placeholder='Z' required/>
+            <input defaultValue={selectedElement.position.z} type='number' placeholder='Z' required/>
           </p>
           <p className={styles.basic}>Yaw:
-            <input name='yaw' id='yaw' type='number' placeholder='Yaw' required/>
+            <input defaultValue={selectedElement.orientation.yaw} type='number' placeholder='Yaw' required/>
           </p>
           <p className={styles.basic}>Pitch:
-            <input name='pitch' id='pitch' type='number' placeholder='Pitch' required/>
+            <input defaultValue={selectedElement.orientation.pitch} type='number' placeholder='Pitch' required/>
           </p>
           <p className={styles.basic}>Roll:
-            <input name='roll' id='roll' type='number' placeholder='Roll' required/>
+            <input defaultValue={selectedElement.orientation.roll} type='number' placeholder='Roll' required/>
+          </p>
+          <button onClick={() => setLoop(curr => !curr)}>
+            Loop? (Temp)
+          </button>
+        </header> 
+      </div> */}
+
+      {/* sound menu */}
+      <div className={hideSoundMenu ? styles.sidebar : styles.invisible}>
+        <header className={styles.title}>
+          <p>
+            Sound Options
+          </p>
+          <p className={styles.basic}>X:
+            0<input defaultValue={selectedSound.position.x} min='0' max='100' type='range' placeholder='X' required/>100
+          </p>
+          <p className={styles.basic}>Y:
+            <input defaultValue={selectedSound.position.y} type='range' placeholder='Y' required/>
+          </p>
+          <p className={styles.basic}>Z:
+            <input defaultValue={selectedSound.position.z} type='range' placeholder='Z' required/>
+          </p>
+          <p className={styles.basic}>Yaw:
+            <input defaultValue={selectedSound.orientation.yaw} type='range' placeholder='Yaw' required/>
+          </p>
+          <p className={styles.basic}>Pitch:
+            <input defaultValue={selectedSound.orientation.pitch} type='range' placeholder='Pitch' required/>
+          </p>
+          <p className={styles.basic}>Inner Length:
+            <input defaultValue={selectedSound.innerLength.valueOf()} type='range' placeholder='Roll' required/>
+          </p>
+          <p className={styles.basic}>Inner Width:
+            <input defaultValue={selectedSound.innerWidth.valueOf()} type='range' placeholder='Roll' required/>
+          </p>
+          <p className={styles.basic}>Outer Length:
+            <input defaultValue={selectedSound.outerLength.valueOf()} type='range' placeholder='Roll' required/>
+          </p>
+          <p className={styles.basic}>Outer Width:
+            <input defaultValue={selectedSound.outerWidth.valueOf()} type='range' placeholder='Roll' required/>
           </p>
           <button onClick={() => setLoop(curr => !curr)}>
             Loop? (Temp)
@@ -74,9 +142,11 @@ export const App = () => {
         </header> 
       </div>
       
+      
     </div>
   )
 }
+
 
 
 

@@ -33,9 +33,7 @@ export const useTranslate = (ref: RefObject<Object3D>, setPosition: Dispatch<Vec
   // nonreactive, non-state variables allocated here to avoid dynamic allocation
   // every frame. these don't retain their meaning across calls to the functions
   // that capture them, so they can be reused as local variables
-  let {
-    v2_0, v3_0, v3_1, v3_2, v3_3, v3_4, v3_5
-  } = useMemo(() => useTranslate.allocLocals(), [])
+  let { v2_0, v3_0, v3_1, v3_2, v3_3, v3_4, v3_5 } = useTranslate.locals
   
   const camera = useThree(state => state.camera) as PerspectiveCamera
   console.assert(camera instanceof PerspectiveCamera, "camera not PerspectiveCamera", camera)
@@ -98,8 +96,8 @@ export const useTranslate = (ref: RefObject<Object3D>, setPosition: Dispatch<Vec
     onPointerMove,
   }
 }
-// allocate the local variables for useTranslate once per mount
-useTranslate.allocLocals = () => ({
+// statically allocate the local variables for useTranslate
+useTranslate.locals = {
   v2_0: new Vector2(),
   v3_0: new Vector3(),
   v3_1: new Vector3(),
@@ -107,7 +105,7 @@ useTranslate.allocLocals = () => ({
   v3_3: new Vector3(),
   v3_4: new Vector3(),
   v3_5: new Vector3(),
-})
+}
 
 
 /**

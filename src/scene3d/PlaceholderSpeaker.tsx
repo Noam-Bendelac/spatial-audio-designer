@@ -7,7 +7,7 @@ import { Color, Group, Mesh, MeshPhongMaterial } from 'three'
 
 // due to the way the useLoader hook works, it seems this component suspends and
 // must have a <Suspense> *outside* this component
-export const PlaceholderSpeaker = (props: MeshProps) => {
+export const PlaceholderSpeaker = () => {
   const obj = useLoader(OBJLoader, speaker)
   
   // test to color each part of the mesh a different material

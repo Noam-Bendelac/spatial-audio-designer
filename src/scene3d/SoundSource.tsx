@@ -9,16 +9,10 @@ import { AudioField } from "scene3d/Scene"
 export const SoundSource = ({ soundSource }: { soundSource: model.SoundSource }) => {
   // just for testing
   const ref = useRef<Group | null>(null)
-  useFrame(() => {
-    if (ref.current != null) {
-    //   ref.current.rotation.x += 0.005
-    //   ref.current.rotation.y += 0.005
-    }
-  })
   
   return <Suspense fallback={null}>
     <group ref={ref} position={soundSource.position}>
-      <PlaceholderSpeaker position={[0, 10, 0]}/>
+      <PlaceholderSpeaker/>
       <AudioField position={[0, 6, 0]} />
       {/* other elements like gizmos go here, under the same transform */}
     </group>

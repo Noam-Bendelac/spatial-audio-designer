@@ -62,49 +62,9 @@ export const App = () => {
     <div className={styles.app}>
       <Scene scene={scene} loop={loop} className={styles.canvas} />
 
-      {/* <button className={styles.buttons} onClick={() => hideObjectMenu ? setHideObjectMenu(false) : setHideObjectMenu(true)}>Object Menu</button> */}
       <button className={styles.buttons} onClick={() => hideSoundMenu ? setHideSoundMenu(false) : setHideSoundMenu(true)}>Sound Source Menu</button>
-      {/* object menu
-      <div className={hideObjectMenu ? styles.sidebar : styles.invisible}>
-        <header className={styles.title}>
-          <p>
-            Object Options
-          </p>
-          <p className={styles.basic}>X:
-            <input defaultValue={selectedElement.position.x} type='number' placeholder='X' required
-              // onChange={(
-              //   ev: React.ChangeEvent<HTMLInputElement>,
-              // ): void => {
-              //   setInputValue(
-              //       parseInt(ev.target.defaultValue, 10),
-              //   );
-              //   console.log(selectedElement.position.x);
-              // }}
-              />
-          </p>
-          <p className={styles.basic}>Y:
-            <input defaultValue={selectedElement.position.y} type='number' placeholder='Y' required/>
-          </p>
-          <p className={styles.basic}>Z:
-            <input defaultValue={selectedElement.position.z} type='number' placeholder='Z' required/>
-          </p>
-          <p className={styles.basic}>Yaw:
-            <input defaultValue={selectedElement.orientation.yaw} type='number' placeholder='Yaw' required/>
-          </p>
-          <p className={styles.basic}>Pitch:
-            <input defaultValue={selectedElement.orientation.pitch} type='number' placeholder='Pitch' required/>
-          </p>
-          <p className={styles.basic}>Roll:
-            <input defaultValue={selectedElement.orientation.roll} type='number' placeholder='Roll' required/>
-          </p>
-          <button onClick={() => setLoop(curr => !curr)}>
-            Loop? (Temp)
-          </button>
-        </header> 
-      </div> */}
-
       {/* sound menu */}
-      <div className={hideSoundMenu ? styles.sidebar : styles.invisible}>
+      <div className={hideSoundMenu ? styles.sidebar : styles.invisible}> {/**hideSoundMenu */}
         <header className={styles.title}>
           <p>
             Sound Options

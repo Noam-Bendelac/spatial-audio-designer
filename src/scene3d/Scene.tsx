@@ -53,9 +53,20 @@ export const Scene = ({
 
 const EnvironmentHandler = () => {
   return (
+    // <Environment
+    //           background={'only'} // Whether to affect scene.background
+    //           files="../../assets/ballroom_4k.hdr"//.hdr
+    //           near={0}
+    //           far={15}
+    //           preset={undefined}
+    // />
+    // <Environment
+    //           background={'only'} // Whether to affect scene.background
+    //           files="../../assets/mosaic_tunnel_4k.hdr"//.hdr
+    // />
     <Environment
               background={'only'} // Whether to affect scene.background
-              files="../../assets/ballroom_4k.hdr"//.hdr
+              files="../../assets/small_cathedral_02_4k.hdr"//.hdr
               near={0}
               far={15}
               preset={undefined}

@@ -63,7 +63,7 @@ export const App = () => {
       <Scene scene={scene} loop={loop} className={styles.canvas} />
 
       {/* <button className={styles.buttons} onClick={() => hideObjectMenu ? setHideObjectMenu(false) : setHideObjectMenu(true)}>Object Menu</button> */}
-      <button className={styles.buttons} onClick={() => hideSoundMenu ? setHideSoundMenu(false) : setHideSoundMenu(true)}>Sound Source Menu</button>
+      {/* <button className={styles.buttons} onClick={() => hideSoundMenu ? setHideSoundMenu(false) : setHideSoundMenu(true)}>Sound Source Menu</button>
       {/* object menu
       <div className={hideObjectMenu ? styles.sidebar : styles.invisible}>
         <header className={styles.title}>
@@ -104,7 +104,7 @@ export const App = () => {
       </div> */}
 
       {/* sound menu */}
-      <div className={hideSoundMenu ? styles.sidebar : styles.invisible}>
+      {/*<div className={hideSoundMenu ? styles.sidebar : styles.invisible}>
         <header className={styles.title}>
           <p>
             Sound Options
@@ -140,7 +140,7 @@ export const App = () => {
             Loop? (Temp)
           </button>
         </header> 
-      </div>
+      </div> */}
       
       
     </div>

@@ -14,7 +14,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
   <mesh />
 </Stage> */}
 
-export const Scene = ({
+export const Scene = ({ 
   scene,
   loop,
   className,
@@ -29,21 +29,9 @@ export const Scene = ({
   //  classes defined in this file
   return <div className={classNames(className)}>
     <Canvas frameloop={loop ? 'always' : 'never'}>
-      {/*Its not loading full correctly but theres no full documentation on all possible properties so I'm just
-      taking shots in the dark*/}
-      {/* <Environment background resolution={1028} preset="warehouse"/> */}
-      {/* <Environment files='ballroom_4k.hdr' background/> */}
-      {/* <Environment
-              background={'only'} // Whether to affect scene.background
-              files="../../assets/ballroom_4k.hdr"//.hdr
-              near={0}
-              far={15}
-              preset={undefined}
-            /> */}
       <EnvironmentHandler/>
-      {/* <Environment preset="sunset" background /> */}
       <CameraController/>
-      <ambientLight />
+      <ambientLight /> 
       <pointLight position={[10, 10, 10]} />
       {scene.soundSources.map(soundSource => <SoundSource soundSource={soundSource} />)} 
       {/* <button>Test</button> */}
@@ -53,24 +41,24 @@ export const Scene = ({
 
 const EnvironmentHandler = () => {
   return (
-    // <Environment
-    //           background={'only'} // Whether to affect scene.background
-    //           files="../../assets/ballroom_4k.hdr"//.hdr
-    //           near={0}
-    //           far={15}
-    //           preset={undefined}
-    // />
+    <Environment
+              background//={'only'} // Whether to affect scene.background
+              files="../../assets/ballroom_4k.hdr"//.hdr
+              near={0}
+              far={15}
+              preset={undefined}
+    /> 
     // <Environment
     //           background={'only'} // Whether to affect scene.background
     //           files="../../assets/mosaic_tunnel_4k.hdr"//.hdr
     // />
-    <Environment
-              background={'only'} // Whether to affect scene.background
-              files="../../assets/small_cathedral_02_4k.hdr"//.hdr
-              near={0}
-              far={15}
-              preset={undefined}
-    />
+    // <Environment
+    //           background={'only'} // Whether to affect scene.background
+    //           files="../../assets/small_cathedral_02_4k.hdr"//.hdr
+    //           near={0}
+    //           far={15}
+    //           preset={undefined} 
+    // />
   )
 }
 

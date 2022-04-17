@@ -31,21 +31,36 @@ export const Scene = ({
     <Canvas frameloop={loop ? 'always' : 'never'}>
       {/*Its not loading full correctly but theres no full documentation on all possible properties so I'm just
       taking shots in the dark*/}
-      <Environment background near={0} far={15} resolution={256} preset="warehouse"/>
+      {/* <Environment background resolution={1028} preset="warehouse"/> */}
+      {/* <Environment files='ballroom_4k.hdr' background/> */}
       {/* <Environment
               background={'only'} // Whether to affect scene.background
-              files={['ballroom_4k.hdr']}//.hdr
+              files="../../assets/ballroom_4k.hdr"//.hdr
               near={0}
               far={15}
-              path={'./'}
+              preset={undefined}
             /> */}
+      <EnvironmentHandler/>
       {/* <Environment preset="sunset" background /> */}
       <CameraController/>
       <ambientLight />
       <pointLight position={[10, 10, 10]} />
       {scene.soundSources.map(soundSource => <SoundSource soundSource={soundSource} />)} 
+      {/* <button>Test</button> */}
     </Canvas>
   </div>
+}
+
+const EnvironmentHandler = () => {
+  return (
+    <Environment
+              background={'only'} // Whether to affect scene.background
+              files="../../assets/ballroom_4k.hdr"//.hdr
+              near={0}
+              far={15}
+              preset={undefined}
+    />
+  )
 }
 
 const CameraController = () => {

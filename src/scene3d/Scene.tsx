@@ -29,7 +29,9 @@ export const Scene = ({
   //  classes defined in this file
   return <div className={classNames(className)}>
     <Canvas frameloop={loop ? 'always' : 'never'}>
+        <Suspense fallback={null}>
       <EnvironmentHandler/>
+      </Suspense>
       <CameraController/>
       <ambientLight /> 
       <pointLight position={[10, 10, 10]} />

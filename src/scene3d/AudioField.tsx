@@ -7,42 +7,51 @@ export const AudioField = (props: MeshProps) => {
     const { camera } = useThree();
     const ref = useRef<Mesh>(null!)
     const [clicked, setClicked] = useState(false)
+    const [sound, setSound] = useState<THREE.PositionalAudio | null>(null)
 
-    const listener = new THREE.AudioListener()
-    camera.add(listener)    
-    const sound = new THREE.PositionalAudio(listener)
-    const audioLoader = new THREE.AudioLoader()
     useEffect(
         () => {
-            
+            const listener = new THREE.AudioListener()
+            camera.add(listener)    
+            const soundObject = new THREE.PositionalAudio(listener)
+            soundObject.setRefDistance(20)
+            soundObject.setVolume(.2)
+            soundObject.setDirectionalCone(90, 0, 0)
+            soundObject.setMaxDistance(10)
+            setSound(soundObject)
+        }, [camera]
+    )
+    useEffect(
+        () => {
+            const audioLoader = new THREE.AudioLoader()
             audioLoader.load('../../assets/melody.mp3', function(buffer) {
-                sound.setBuffer(buffer)
-                // sound.setRefDistance(20)
-                sound.setVolume(.2)
-                sound.setDirectionalCone(90, 0, 0)
-                sound.setMaxDistance(500)
-                console.log(sound.getMaxDistance())
-                console.log(Math.abs(Math.tan(sound.panner.coneInnerAngle) * sound.getMaxDistance()))
-                if (clicked) {
-                    sound.play()
-                }
-            })
-        }        
+                sound?.setBuffer(buffer)
+            })            
+        }, [sound]
+    )
+    useEffect(
+        () => {
+            if (clicked) {
+                sound?.play()
+            }
+            else {
+                sound?.pause()
+            }
+        }, [clicked]
     )
 
     return (
-        <mesh 
-        
-        {...props}
-        ref={ref}
-        scale={1}
-        visible={!clicked ? true : false}
-        rotation = {[Math.PI, 0, 0]}            
-        
-        onClick={() => setClicked(!clicked)}
-        >
-        <coneGeometry args={[Math.abs(Math.tan(sound.panner.coneInnerAngle) * sound.getMaxDistance()), sound.getMaxDistance(), 30]} />
-        <meshPhongMaterial color='red' opacity={0.2} transparent={true}/>
-        </mesh>        
+        sound && <mesh 
+            {...props}
+            ref={ref}
+            scale={1}
+            visible={clicked ? true : false}
+            rotation = {[Math.PI, 0, 0]}            
+            
+            onClick={() => setClicked(!clicked)}
+            >
+            <coneGeometry args={[Math.abs(Math.tan(sound.panner.coneInnerAngle) * sound.getMaxDistance()), sound.getMaxDistance(), 30]} />
+            <meshPhongMaterial color='red' opacity={0.2} transparent={true}/>
+        </mesh>
     )
 }

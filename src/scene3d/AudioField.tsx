@@ -44,12 +44,14 @@ export const AudioField = ({ soundSource }: { soundSource: model.SoundSource }) 
   return <>
     {/* this actually places the sound source (that makes the audio) into the scene
       in the right position */}
-    {sound && <primitive object={sound} />}
+    {sound && <group rotation={[0, Math.PI/2, 0]}>
+      <primitive object={sound} />
+    </group>}
     {/* this simply places the visuals in the scene */}
     {sound && <mesh
       scale={1}
       visible={clicked ? true : false}
-      rotation = {[0, 0, Math.PI/2]}
+      rotation={[0, 0, Math.PI/2]}
       position={[soundSource.innerLength / 2, 0, 0]}
       onClick={() => setClicked(!clicked)}
     >

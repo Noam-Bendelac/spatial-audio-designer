@@ -11,6 +11,12 @@ export const SoundSource = ({ soundSource }: { soundSource: model.SoundSource })
   const ref = useRef<Group | null>(null)
   return <Suspense fallback={null}>
     <group ref={ref} position={soundSource.position}>
+      {/* this confirms that the speaker placeholder is positioned correctly at soundSource.position: */}
+      {/* <mesh>
+        <boxBufferGeometry />
+        <meshBasicMaterial color={'green'} />
+      </mesh> */}
+      
       <PlaceholderSpeaker/>
       <AudioField position={[0, 0, 0]} />
       {/* other elements like gizmos go here, under the same transform */}

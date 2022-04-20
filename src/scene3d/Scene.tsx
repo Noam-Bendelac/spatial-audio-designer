@@ -1,5 +1,5 @@
 import classNames from 'classnames'
-import { AudioLoader, Mesh, Vector3 } from 'three'
+import { AudioLoader, Clock, Mesh, Vector3 } from 'three'
 import * as THREE from 'three'
 import { Canvas, MeshProps, useFrame, useThree, useLoader } from '@react-three/fiber'
 import { useRef, useState, useEffect, Suspense } from 'react'
@@ -8,6 +8,7 @@ import { SoundSource } from 'scene3d/SoundSource'
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 import { Environment } from '@react-three/drei'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
+import { useLimitFramerate } from 'scene3d/useFramerate'
 
 
 {/* <Stage contactShadow shadows adjustCamera intensity={1} environment="city" preset="rembrandt" controls={controlsRef}>
@@ -28,28 +29,44 @@ export const Scene = ({
   // using classNames() allows to combine className from outside with other
   //  classes defined in this file
   return <div className={classNames(className)}>
-    <Canvas frameloop={loop ? 'always' : 'never'}>
-        <Suspense fallback={null}>
-          <Gltf src="https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/16e2408/2.0/Sponza/glTF/Sponza.gltf" />
-      <EnvironmentHandler/>
-      </Suspense>
-      <CameraController/>
-      <ambientLight /> 
-      <pointLight position={[10, 10, 10]} />
-      {scene.soundSources.map(soundSource => <SoundSource soundSource={soundSource} />)} 
-      {/* <button>Test</button> */}
+    <Canvas frameloop={'demand'}>
+      <SceneContents scene={scene} loop={loop} />
     </Canvas>
   </div>
 }
 
+
+// this separation from Scene is needed to be able to use threejs hooks
+const SceneContents = ({ scene, loop }: {
+  scene: model.Scene,
+  loop: boolean,
+}) => {
+  useLimitFramerate(loop)
+  
+  return <>
+    <Suspense fallback={null}>
+      <Gltf src="https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/16e2408/2.0/Sponza/glTF/Sponza.gltf" />
+      <EnvironmentHandler/>
+    </Suspense>
+    <CameraController/>
+    <ambientLight /> 
+    <pointLight position={[10, 10, 10]} />
+    {scene.soundSources.map(soundSource => <SoundSource soundSource={soundSource} />)} 
+    {/* <button>Test</button> */}
+  </>
+}
+
+
+
+
 const EnvironmentHandler = () => {
   return (
     <Environment
-              background//={'only'} // Whether to affect scene.background
-              files="../../assets/ballroom_4k.hdr"//.hdr
-              near={0}
-              far={15}
-              preset={undefined}
+      background//={'only'} // Whether to affect scene.background
+      files="../../assets/ballroom_4k.hdr"//.hdr
+      near={0}
+      far={15}
+      preset={undefined}
     /> 
     // <Environment
     //           background={'only'} // Whether to affect scene.background
@@ -75,19 +92,19 @@ const Gltf = ({ src }: { src: string }) => {
 
 
 const CameraController = () => {
-    const { camera, gl } = useThree();
-    useEffect(
-        () => {
-            const controls = new OrbitControls(camera, gl.domElement)
+  const { camera, gl } = useThree();
+  useEffect(
+    () => {
+      const controls = new OrbitControls(camera, gl.domElement)
 
-            controls.maxDistance = 100
-            return () => {
-                controls.dispose()
-            }
-        },
-        [camera, gl]
-    )
-    return null
+      controls.maxDistance = 100
+      return () => {
+        controls.dispose()
+      }
+    },
+    [camera, gl]
+  )
+  return null
 }
 
 

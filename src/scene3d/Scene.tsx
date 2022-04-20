@@ -30,6 +30,7 @@ export const Scene = ({
   return <div className={classNames(className)}>
     <Canvas frameloop={loop ? 'always' : 'never'}>
         <Suspense fallback={null}>
+          <Gltf src="https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/16e2408/2.0/Sponza/glTF/Sponza.gltf" />
       <EnvironmentHandler/>
       </Suspense>
       <CameraController/>
@@ -63,6 +64,15 @@ const EnvironmentHandler = () => {
     // />
   )
 }
+
+
+const Gltf = ({ src }: { src: string }) => {
+  const gltf = useLoader(GLTFLoader, src)
+  return (
+    <primitive object={gltf.scene} />
+  )
+}
+
 
 const CameraController = () => {
     const { camera, gl } = useThree();

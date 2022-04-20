@@ -21,17 +21,17 @@ export interface SoundSource extends DOF5 {
   
   // TODO this is for X3D Sound node (ellipsoid), change to web audio cone-based
   // spatialized source
-  readonly outerLength: Number,
-  readonly outerWidth: Number,
-  readonly innerLength: Number,
-  readonly innerWidth: Number,
+  readonly outerLength: number,
+  readonly outerWidth: number,
+  readonly innerLength: number,
+  readonly innerWidth: number,
   
   // filename of asset; TODO might change
   readonly soundClip: string | null,
-  readonly level: Number,
-  readonly speed: Number,
-  readonly start: Number,
-  readonly stop: Number,
+  readonly level: number,
+  readonly speed: number,
+  readonly start: number,
+  readonly stop: number,
   readonly convolution: ConvolutionSpace,
 }
 

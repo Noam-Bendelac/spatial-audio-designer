@@ -1,6 +1,6 @@
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'
 import { speaker } from 'assets'
-import { MeshProps, useLoader } from '@react-three/fiber'
+import { useLoader } from '@react-three/fiber'
 import { useEffect, useMemo } from 'react'
 import { Color, Group, Mesh, MeshPhongMaterial } from 'three'
 
@@ -17,7 +17,8 @@ export const PlaceholderSpeaker = () => {
     const mesh = group.children[0] as Mesh
     const mats = mesh.material as MeshPhongMaterial[]
     // fill each material with a different color for testing
-    mats.forEach((mat, idx) => { mat.color.setRGB(1 - 0.1*idx, 0.1*idx, 0)})
+    const colors: [number, number, number][] = [[1,0,0], [1,1,0], [0,1,0], [0,1,1], [0,0,1], [1,0,1]]
+    mats.forEach((mat, idx) => { mat.color.setRGB(...(colors[idx%colors.length]))})
   }, [obj])
   
   // test to put a new single material on the whole geometry
@@ -35,11 +36,14 @@ export const PlaceholderSpeaker = () => {
     return newMesh
   }, [obj])
   
-  
-  return <primitive
-    object={obj}
-    // object={newMesh}
-    scale={0.01}
-  />
-    
+  return <group
+    scale={.003}
+    // by default, the speaker.obj model faces +y; make it face +x:
+    rotation={[0, 0, -Math.PI/2]}
+  >
+    <primitive
+      object={obj}
+      // object={newMesh}
+    />
+  </group>
 }

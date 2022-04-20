@@ -1,4 +1,3 @@
-import { useFrame } from '@react-three/fiber'
 import * as model from 'model/model'
 import { Suspense, useRef } from 'react'
 import { PlaceholderSpeaker } from 'scene3d/PlaceholderSpeaker'
@@ -12,13 +11,17 @@ export const SoundSource = ({ soundSource }: { soundSource: model.SoundSource })
   return <Suspense fallback={null}>
     <group ref={ref} position={soundSource.position}>
       {/* this confirms that the speaker placeholder is positioned correctly at soundSource.position: */}
-      {/* <mesh>
+      {/* <mesh scale={0.1}>
+        <boxBufferGeometry />
+        <meshBasicMaterial color={'green'} />
+      </mesh>
+      <mesh position={[2,0,0]} scale={0.1}>
         <boxBufferGeometry />
         <meshBasicMaterial color={'green'} />
       </mesh> */}
       
-      <PlaceholderSpeaker/>
-      <AudioField position={[0, 0, 0]} />
+      <PlaceholderSpeaker />
+      <AudioField soundSource={soundSource} />
       {/* other elements like gizmos go here, under the same transform */}
     </group>
   </Suspense>

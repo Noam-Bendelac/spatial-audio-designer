@@ -33,12 +33,12 @@ export const App = () => {
     }],
     soundSources: [{
       name: 'speaker 1',
-      position: new Vector3(-5,-5,-20),
+      position: new Vector3(0,1,0),
       orientation: {
         yaw: 0,
         pitch: 0,
       },
-      innerLength: 0,
+      innerLength: 2,
       innerWidth: 0,
       outerLength: 0,
       outerWidth: 0,

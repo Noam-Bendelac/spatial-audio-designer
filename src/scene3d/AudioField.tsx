@@ -1,10 +1,11 @@
 import * as THREE from 'three'
-import { MeshProps, useThree } from '@react-three/fiber'
-import { useRef, useState, useEffect } from 'react'
+import * as model from 'model/model'
+import { useThree } from '@react-three/fiber'
+import { useState, useEffect } from 'react'
 
 
 
-export const AudioField = (props: MeshProps) => {
+export const AudioField = ({ soundSource }: { soundSource: model.SoundSource }) => {
   const { camera } = useThree();
   const [clicked, setClicked] = useState(false)
   const [sound, setSound] = useState<THREE.PositionalAudio | null>(null)
@@ -14,10 +15,10 @@ export const AudioField = (props: MeshProps) => {
       const listener = new THREE.AudioListener()
       camera.add(listener)    
       const soundObject = new THREE.PositionalAudio(listener)
-      soundObject.setRefDistance(20)
+      soundObject.setRefDistance(soundSource.innerLength)
       soundObject.setVolume(.2)
       soundObject.setDirectionalCone(90, 100, 0)
-      soundObject.setMaxDistance(10)
+      soundObject.setMaxDistance(soundSource.innerLength * 5)
       setSound(soundObject)
     }, [camera]
   )
@@ -39,22 +40,44 @@ export const AudioField = (props: MeshProps) => {
       }
     }, [clicked]
   )
-
+  
   return <>
     {/* this actually places the sound source (that makes the audio) into the scene
       in the right position */}
     {sound && <primitive object={sound} />}
     {/* this simply places the visuals in the scene */}
-    {sound && <mesh 
-      {...props}
+    {sound && <mesh
       scale={1}
       visible={clicked ? true : false}
-      rotation = {[Math.PI, 0, 0]}            
-      
+      rotation = {[0, 0, Math.PI/2]}
+      position={[soundSource.innerLength / 2, 0, 0]}
       onClick={() => setClicked(!clicked)}
     >
-      <coneGeometry args={[Math.abs(Math.tan(sound.panner.coneInnerAngle) * sound.getMaxDistance()), sound.getMaxDistance(), 30]} />
+      <ConeAngleGeometry angle={90} height={soundSource.innerLength} />
       <meshPhongMaterial color='red' opacity={0.2} transparent={true}/>
     </mesh>}
   </>
 }
+
+
+const ConeAngleGeometry = ({
+  angle,
+  height,
+}: {
+  // degrees
+  angle: number,
+  height: number,
+}) => {
+  const halfAngleRad = deg2rad(angle/2)
+  const radius = Math.abs(Math.tan(halfAngleRad) * height)
+  // console.log({halfAngleRad, radius})
+  return <coneGeometry
+    args={[
+      radius,
+      height,
+      30
+    ]}
+  />
+}
+
+const deg2rad = (deg: number) => deg / 180 * Math.PI

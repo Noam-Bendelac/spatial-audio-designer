@@ -1,0 +1,65 @@
+
+@font-face {
+  font-family: 'Archeus Grotesque';
+  src: local('Acherus Grotesque Regular'), url(./fonts/acherus_grotesque_-_regular.otf) format('opentype');
+}
+
+.app {
+  display: flex;
+  align-items: stretch;
+}
+
+.canvas {
+  flex: 1;
+  /* min-height: 100%; */
+}
+
+.sidebar {
+  width: 500px;
+  
+  text-align: center;
+}
+
+.appHeader {
+  background-color: #282c34;
+  height: 100vh;
+  box-sizing: border-box;
+  padding: 20px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.title {
+  background-color: #282c34;
+  height: 100vh;
+  box-sizing: border-box;
+  padding: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* justify-content: center; */
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.basic {
+  font-size:16px;
+  /* padding: 0px; */
+  font-family: 'Archeus Grotesque';
+}
+
+.invisible{
+  visibility:hidden;
+}
+
+.buttons{
+  height:50px;
+  width:100px;
+}
+

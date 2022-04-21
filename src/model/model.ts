@@ -60,6 +60,7 @@ export interface DOF5 {
 }
 
 
+// all orientation angles are in degrees
 export interface OrientationYPR {
   // turn left-right
   readonly yaw: number,

@@ -1,15 +1,19 @@
 import * as model from 'model/model'
-import { Suspense, useRef } from 'react'
+import { Suspense } from 'react'
 import { PlaceholderSpeaker } from 'scene3d/PlaceholderSpeaker'
-import { Group } from 'three'
 import { AudioField } from "scene3d/AudioField"
+import { useTBEuler } from 'scene3d/useMathStructs'
+import { orientationYPToEuler } from 'model/math'
 
 
 export const SoundSource = ({ soundSource }: { soundSource: model.SoundSource }) => {
-  // just for testing
-  const ref = useRef<Group | null>(null)
+  const rotationEuler = useTBEuler()
+  
   return <Suspense fallback={null}>
-    <group ref={ref} position={soundSource.position}>
+    <group
+      position={soundSource.position}
+      rotation={orientationYPToEuler(soundSource.orientation, rotationEuler)}
+    >
       {/* this confirms that the speaker placeholder is positioned correctly at soundSource.position: */}
       {/* <mesh scale={0.1}>
         <boxBufferGeometry />

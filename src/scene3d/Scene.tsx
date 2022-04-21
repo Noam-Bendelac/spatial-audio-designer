@@ -1,8 +1,6 @@
 import classNames from 'classnames'
-import { AudioLoader, Clock, Mesh, Vector3 } from 'three'
-import * as THREE from 'three'
-import { Canvas, MeshProps, useFrame, useThree, useLoader } from '@react-three/fiber'
-import { useRef, useState, useEffect, Suspense } from 'react'
+import { Canvas, useThree, useLoader } from '@react-three/fiber'
+import { useEffect, Suspense } from 'react'
 import * as model from 'model/model'
 import { SoundSource } from 'scene3d/SoundSource'
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
@@ -11,9 +9,6 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { useLimitFramerate } from 'scene3d/useFramerate'
 
 
-{/* <Stage contactShadow shadows adjustCamera intensity={1} environment="city" preset="rembrandt" controls={controlsRef}>
-  <mesh />
-</Stage> */}
 
 export const Scene = ({ 
   scene,

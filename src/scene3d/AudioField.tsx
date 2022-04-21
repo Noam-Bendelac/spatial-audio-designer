@@ -2,6 +2,7 @@ import * as THREE from 'three'
 import * as model from 'model/model'
 import { useThree } from '@react-three/fiber'
 import { useState, useEffect } from 'react'
+import { deg2rad } from 'model/math'
 
 
 
@@ -82,4 +83,3 @@ const ConeAngleGeometry = ({
   />
 }
 
-const deg2rad = (deg: number) => deg / 180 * Math.PI

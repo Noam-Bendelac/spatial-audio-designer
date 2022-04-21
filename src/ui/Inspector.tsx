@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction } from 'react'
 import styles from './App.module.css'
 import * as model from 'model/model'
 import produce from 'immer'
+import { useTBVector3 } from 'scene3d/useMathStructs'
 
 
 
@@ -14,6 +15,9 @@ export const Inspector = ({
   selectedSound: model.SoundSource,
   onChange: Dispatch<model.SoundSource>,
 }) => {
+  // switch between 3 vector references on each update for react-three to notice
+  // the mutations
+  const newPos = useTBVector3()
   
   return <header className={styles.title}>
     <p>
@@ -26,11 +30,13 @@ export const Inspector = ({
         type='range'
         value={selectedSound.position.x}
         onChange={evt => onChange(produce(selectedSound, draft => {
-          draft.position = draft.position.clone().setX(Number.parseFloat(evt.target.value))
+          draft.position = newPos
+            .copy(draft.position)
+            .setX(Number.parseFloat(evt.target.value))
         }))}
         min='-5'
         max='5'
-        step='0.5'
+        step='0.2'
       />
       5
     </p>
@@ -41,11 +47,13 @@ export const Inspector = ({
         type='range'
         value={selectedSound.position.y}
         onChange={evt => onChange(produce(selectedSound, draft => {
-          draft.position = draft.position.clone().setY(Number.parseFloat(evt.target.value))
+          draft.position = newPos
+            .copy(draft.position)
+            .setY(Number.parseFloat(evt.target.value))
         }))}
         min='-5'
         max='5'
-        step='0.5'
+        step='0.2'
       />
       5
     </p>
@@ -56,11 +64,13 @@ export const Inspector = ({
         type='range'
         value={selectedSound.position.z}
         onChange={evt => onChange(produce(selectedSound, draft => {
-          draft.position = draft.position.clone().setZ(Number.parseFloat(evt.target.value))
+          draft.position = newPos
+            .copy(draft.position)
+            .setZ(Number.parseFloat(evt.target.value))
         }))}
         min='-5'
         max='5'
-        step='0.5'
+        step='0.2'
       />
       5
     </p>

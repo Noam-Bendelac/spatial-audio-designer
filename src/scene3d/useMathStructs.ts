@@ -21,4 +21,14 @@ export const useTBEuler = () => {
   indexBox.current = (indexBox.current + 1) % buffers.length
   return ret
 }
+export const useTBVector3 = () => {
+  const [buffers, indexBox] = useMemo(() => [
+    [new Vector3(), new Vector3(), new Vector3()],
+    { current: 0 }
+  ], [])
+  const ret = buffers[indexBox.current]
+  indexBox.current = (indexBox.current + 1) % buffers.length
+  return ret
+}
+
 

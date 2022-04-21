@@ -15,11 +15,8 @@ export const orientationYPToEuler = (orientation: OrientationYP, target: Euler):
     // then, rotating about z does pitch
     deg2rad(orientation.pitch)
   )
-  set.add(target)
-  console.log(set)
   return target
 }
-const set = new Set()
 
 export const orientationYPRToEuler = (orientation: OrientationYPR, target: Euler): Euler => {
   const { q1, q2, e1 } = orientationYPRToEuler.locals

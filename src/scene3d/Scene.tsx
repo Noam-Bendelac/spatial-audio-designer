@@ -63,11 +63,16 @@ const EnvironmentHandler = () => {
   return (
     <Environment
       background//={'only'} // Whether to affect scene.background
-      files="../../assets/ballroom_4k.hdr"//.hdr
-      near={0}
-      far={15}
+      files="../../assets/evening_meadow_4k.hdr"//.hdr
       preset={undefined}
     /> 
+    // <Environment
+    //   background//={'only'} // Whether to affect scene.background
+    //   files="../../assets/ballroom_4k.hdr"//.hdr
+    //   near={0}
+    //   far={15}
+    //   preset={undefined}
+    // /> 
     // <Environment
     //           background={'only'} // Whether to affect scene.background
     //           files="../../assets/mosaic_tunnel_4k.hdr"//.hdr

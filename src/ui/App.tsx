@@ -4,16 +4,17 @@ import * as model from 'model/model'
 import logo from './logo.svg'
 import styles from './App.module.css'
 import { Vector3 } from 'three'
+import { Inspector } from 'ui/Inspector'
+import { useImmer } from 'use-immer'
 
 export const App = () => {
   // pause looping during development for performance
   const [loop, setLoop] = useState(true)
 
-  const [hideObjectMenu, setHideObjectMenu] = useState(false);
   const [hideSoundMenu, setHideSoundMenu] = useState(false);
   
   // placeholder initial scene
-  const [scene, setScene] = useState<model.Scene>(() => ({
+  const [scene, setScene] = useImmer<model.Scene>(() => ({
     viewerCameraStart: {
       position: new Vector3(0, 0, 0),
       orientation: {
@@ -56,7 +57,6 @@ export const App = () => {
   const selectedSound = scene.soundSources[0]
 
   //
-  const [inputValue, setInputValue] = useState<number>(0);
   
   return (
     <div className={styles.app}>
@@ -65,41 +65,13 @@ export const App = () => {
       <button className={styles.buttons} onClick={() => hideSoundMenu ? setHideSoundMenu(false) : setHideSoundMenu(true)}>Sound Source Menu</button>
       {/* sound menu */}
       <div className={hideSoundMenu ? styles.sidebar : styles.invisible}> {/**hideSoundMenu */}
-        <header className={styles.title}>
-          <p>
-            Sound Options
-          </p>
-          <p className={styles.basic}>X:
-            0<input defaultValue={selectedSound.position.x} min='0' max='100' type='range' placeholder='X' required/>100
-          </p>
-          <p className={styles.basic}>Y:
-            <input defaultValue={selectedSound.position.y} type='range' placeholder='Y' required/>
-          </p>
-          <p className={styles.basic}>Z:
-            <input defaultValue={selectedSound.position.z} type='range' placeholder='Z' required/>
-          </p>
-          <p className={styles.basic}>Yaw:
-            <input defaultValue={selectedSound.orientation.yaw} type='range' placeholder='Yaw' required/>
-          </p>
-          <p className={styles.basic}>Pitch:
-            <input defaultValue={selectedSound.orientation.pitch} type='range' placeholder='Pitch' required/>
-          </p>
-          <p className={styles.basic}>Inner Length:
-            <input defaultValue={selectedSound.innerLength.valueOf()} type='range' placeholder='Roll' required/>
-          </p>
-          <p className={styles.basic}>Inner Width:
-            <input defaultValue={selectedSound.innerWidth.valueOf()} type='range' placeholder='Roll' required/>
-          </p>
-          <p className={styles.basic}>Outer Length:
-            <input defaultValue={selectedSound.outerLength.valueOf()} type='range' placeholder='Roll' required/>
-          </p>
-          <p className={styles.basic}>Outer Width:
-            <input defaultValue={selectedSound.outerWidth.valueOf()} type='range' placeholder='Roll' required/>
-          </p>
-          <button onClick={() => setLoop(curr => !curr)}>
-            Loop? (Temp)
-          </button>
-        </header> 
+        <Inspector
+          setLoop={setLoop}
+          selectedSound={selectedSound}
+          onChange={newSoundSource => setScene(draft => {
+            draft.soundSources[0] = newSoundSource
+          })}
+        />
       </div>
       
       

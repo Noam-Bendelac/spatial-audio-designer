@@ -11,8 +11,6 @@ export const App = () => {
   // pause looping during development for performance
   const [loop, setLoop] = useState(true)
 
-  const [hideSoundMenu, setHideSoundMenu] = useState(false);
-  
   // placeholder initial scene
   const [scene, setScene] = useImmer<model.Scene>(() => ({
     viewerCameraStart: {
@@ -49,6 +47,23 @@ export const App = () => {
       start: 0,
       stop: 1,
       convolution: 'none',
+    }, {
+      name: 'speaker 2',
+      position: new Vector3(-2,0.5,-1),
+      orientation: {
+        yaw: -70,
+        pitch: 45,
+      },
+      innerLength: 2,
+      innerWidth: 0,
+      outerLength: 0,
+      outerWidth: 0,
+      level: 1,
+      soundClip: null,
+      speed: 1,
+      start: 0,
+      stop: 1,
+      convolution: 'none',
     }],
   }))
   
@@ -62,9 +77,8 @@ export const App = () => {
     <div className={styles.app}>
       <Scene scene={scene} loop={loop} className={styles.canvas} />
 
-      <button className={styles.buttons} onClick={() => hideSoundMenu ? setHideSoundMenu(false) : setHideSoundMenu(true)}>Sound Source Menu</button>
       {/* sound menu */}
-      <div className={hideSoundMenu ? styles.sidebar : styles.invisible}> {/**hideSoundMenu */}
+      <div className={styles.sidebar}>
         <Inspector
           setLoop={setLoop}
           selectedSound={selectedSound}

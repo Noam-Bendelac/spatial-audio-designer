@@ -8,7 +8,7 @@ import { Color, Group, Mesh, MeshPhongMaterial } from 'three'
 // due to the way the useLoader hook works, it seems this component suspends and
 // must have a <Suspense> *outside* this component
 export const PlaceholderSpeaker = () => {
-  const obj = useLoader(OBJLoader, speaker)
+  const obj = useLoader(OBJLoader, speaker).clone()
   
   // test to color each part of the mesh a different material
   useEffect(() => {
@@ -17,7 +17,7 @@ export const PlaceholderSpeaker = () => {
     const mesh = group.children[0] as Mesh
     const mats = mesh.material as MeshPhongMaterial[]
     // fill each material with a different color for testing
-    const colors: [number, number, number][] = [[1,0,0], [1,1,0], [0,1,0], [0,1,1], [0,0,1], [1,0,1]]
+    const colors: [number, number, number][] = [[0.2,0.2,0.2], [0.1, 0.102, 0.106]]
     mats.forEach((mat, idx) => { mat.color.setRGB(...(colors[idx%colors.length]))})
   }, [obj])
   

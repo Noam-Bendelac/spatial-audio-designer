@@ -104,7 +104,7 @@ export const Inspector = ({
       />
       90
     </p>
-    <p className={styles.basic}>Inner Length:
+    {/* <p className={styles.basic}>Inner Length:
       <input defaultValue={selectedSound.innerLength} type='range' placeholder='Roll' required/>
     </p>
     <p className={styles.basic}>Inner Width:
@@ -118,6 +118,6 @@ export const Inspector = ({
     </p>
     <button onClick={() => setLoop(curr => !curr)}>
       Loop? (Temp)
-    </button>
+    </button> */}
   </header>
 }

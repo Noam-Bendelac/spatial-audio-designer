@@ -74,6 +74,7 @@ export const Inspector = ({
       />
       5
     </p>
+    <br/>
     <p className={styles.basic}>
       Yaw:
       -180
@@ -103,6 +104,37 @@ export const Inspector = ({
         step='1'
       />
       90
+    </p>
+    <br/>
+    <p className={styles.basic}>
+      Cone inner angle:
+      0
+      <input
+        type='range'
+        value={selectedSound.coneInnerAngle}
+        onChange={evt => onChange(produce(selectedSound, draft => {
+          draft.coneInnerAngle = Number.parseFloat(evt.target.value)
+        }))}
+        min='0'
+        max='180'
+        step='1'
+      />
+      180
+    </p>
+    <p className={styles.basic}>
+      Cone attenuation distance:
+      0
+      <input
+        type='range'
+        value={selectedSound.refDistance}
+        onChange={evt => onChange(produce(selectedSound, draft => {
+          draft.refDistance = Number.parseFloat(evt.target.value)
+        }))}
+        min='0'
+        max='5'
+        step='0.2'
+      />
+      5
     </p>
     {/* <p className={styles.basic}>Inner Length:
       <input defaultValue={selectedSound.innerLength} type='range' placeholder='Roll' required/>

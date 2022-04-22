@@ -19,12 +19,15 @@ export interface Scene {
 export interface SoundSource extends DOF5 {
   readonly name: string,
   
-  // TODO this is for X3D Sound node (ellipsoid), change to web audio cone-based
   // spatialized source
-  readonly outerLength: number,
-  readonly outerWidth: number,
-  readonly innerLength: number,
-  readonly innerWidth: number,
+  // in degrees
+  readonly coneInnerAngle: number,
+  readonly coneOuterAngle: number,
+  // linear amplitude at edge/outside cone
+  readonly coneOuterGain: number,
+  // distance used for distance volume decrease; sound can still be heard beyond this distance
+  readonly refDistance: number,
+  readonly maxDistance: number,
   
   // filename of asset; TODO might change
   readonly soundClip: string | null,

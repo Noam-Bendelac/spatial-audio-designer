@@ -3,6 +3,7 @@ import * as model from 'model/model'
 import { useThree } from '@react-three/fiber'
 import { useState, useEffect } from 'react'
 import { deg2rad } from 'model/math'
+import { DoubleSide } from 'three'
 
 
 
@@ -19,7 +20,7 @@ export const AudioField = ({
     position={[soundSource.maxDistance / 2, 0, 0]}
   >
     <ConeAngleGeometry angle={soundSource.coneInnerAngle} height={soundSource.maxDistance} />
-    <meshPhongMaterial color='red' opacity={0.2} transparent={true}/>
+    <meshPhongMaterial color='red' opacity={0.15} transparent={true} side={DoubleSide} />
   </mesh>
 
 

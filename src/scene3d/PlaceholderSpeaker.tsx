@@ -8,7 +8,15 @@ import { Color, Group, Mesh, MeshPhongMaterial } from 'three'
 // due to the way the useLoader hook works, it seems this component suspends and
 // must have a <Suspense> *outside* this component
 export const PlaceholderSpeaker = () => {
-  const obj = useLoader(OBJLoader, speaker).clone()
+  // useLoader returns the *same Group instance* for all components if they pass
+  // in the same url
+  const sourceObj = useLoader(OBJLoader, speaker)
+  // to mount multiple times in different places in the threejs scene, we must
+  // clone. Because useLoader returns a Group instance we don't directly use,
+  // this is technically slightly wasteful, but clone is relatively cheap because
+  // it does not duplicate memory intensive resources (mainly the geometry)
+  // https://stackoverflow.com/questions/41638745/how-does-the-clone-method-in-three-js-save-memory
+  const obj = useMemo(() => sourceObj.clone(), [sourceObj])
   
   // test to color each part of the mesh a different material
   useEffect(() => {
@@ -22,19 +30,19 @@ export const PlaceholderSpeaker = () => {
   }, [obj])
   
   // test to put a new single material on the whole geometry
-  const newMesh = useMemo(() => {
+  // const newMesh = useMemo(() => {
     
-    const group: Group = obj
-    const oldMesh = group.children[0] as Mesh
-    const geometry = oldMesh.geometry
-    const newMesh = new Mesh(geometry, new MeshPhongMaterial({
-      color: new Color(0,0,1),
-      // idk if i can get these to do anything:
-      shininess: 5,
-      // reflectivity: 0.8,
-    }))
-    return newMesh
-  }, [obj])
+  //   const group: Group = obj
+  //   const oldMesh = group.children[0] as Mesh
+  //   const geometry = oldMesh.geometry
+  //   const newMesh = new Mesh(geometry, new MeshPhongMaterial({
+  //     color: new Color(0,0,1),
+  //     // idk if i can get these to do anything:
+  //     shininess: 5,
+  //     // reflectivity: 0.8,
+  //   }))
+  //   return newMesh
+  // }, [obj])
   
   return <group
     scale={.003}

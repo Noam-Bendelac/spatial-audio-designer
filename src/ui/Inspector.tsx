@@ -8,12 +8,18 @@ import classNames from 'classnames'
 
 
 export const Inspector = ({
-  setLoop,
+  onToggleCones,
+  onToggleSpatial,
+  onToggleScene,
+  onClickSave,
   selectedSound,
   onChange,
   className,
 }: {
-  setLoop: Dispatch<SetStateAction<boolean>>,
+  onToggleCones?: Dispatch<void>,
+  onToggleSpatial?: Dispatch<void>,
+  onToggleScene?: Dispatch<void>,
+  onClickSave: Dispatch<void>,
   selectedSound: model.SoundSource,
   onChange: Dispatch<model.SoundSource>,
   className?: string,
@@ -23,9 +29,23 @@ export const Inspector = ({
   const newPos = useTBVector3()
   
   return <aside className={classNames(className, styles.main)}>
-    <p>
+    <div className={styles.spacer} />
+    <h1>
+      Global Options
+    </h1>
+    <div className={styles.buttonsWrapper}>
+      <button onClick={() => onToggleCones?.()}>Toggle audio field cone visualization</button>
+      <button onClick={() => onToggleSpatial?.()}>Toggle audio field spatial intensity visualization</button>
+    </div>
+    <div className={styles.buttonsWrapper}>
+      <button onClick={() => onToggleScene?.()}>Toggle between scenes</button>
+      <button onClick={() => onClickSave()}>Save current scene</button>
+    </div>
+    
+    <div className={styles.spacer} />
+    <h1>
       Sound Source Options
-    </p>
+    </h1>
     <p className={styles.slider}>
       X:
       -5
@@ -77,7 +97,7 @@ export const Inspector = ({
       />
       5
     </p>
-    <br/>
+    <div className={styles.spacer} />
     <p className={styles.slider}>
       Yaw:
       -180
@@ -108,7 +128,7 @@ export const Inspector = ({
       />
       90
     </p>
-    <br/>
+    <div className={styles.spacer} />
     <p className={styles.slider}>
       Cone inner angle:
       0

@@ -9,14 +9,44 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 15px;
   /* justify-content: center; */
   font-size: calc(10px + 2vmin);
   color: white;
 }
 
-.slider {
+.main h1 {
+  font-size: calc(10px + 2vmin);
+  margin: 0;
+}
+
+.item {
   font-size:16px;
   /* padding: 0px; */
   font-family: 'Archeus Grotesque';
 }
 
+.buttonsWrapper {
+  composes: item;
+  width: 100%;
+  padding: 0 25px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+}
+.buttonsWrapper button {
+  font-size: 14px;
+  font-family: inherit;
+  flex: 1;
+  padding: 5px;
+}
+
+.slider {
+  composes: item;
+  margin: 0;
+}
+
+.spacer {
+  height: 15px;
+}

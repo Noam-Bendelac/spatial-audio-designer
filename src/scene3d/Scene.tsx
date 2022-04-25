@@ -10,6 +10,7 @@ import { useLimitFramerate } from 'scene3d/useFramerate'
 import { AudioListener, AudioLoader } from 'three'
 import { listenerContext } from 'scene3d/listenerContext'
 import { SyncPromise } from 'SyncPromise'
+import styles from 'ui/App.module.css'
 
 
 
@@ -26,11 +27,13 @@ export const Scene = ({
   
   // using classNames() allows to combine className from outside with other
   //  classes defined in this file
-  return <div className={classNames(className)}>
-    <Canvas frameloop={'demand'}>
-      <SceneContents scene={scene} loop={loop} />
-    </Canvas>
-  </div>
+  return <Suspense fallback={<div className={styles.loading}>Loading...</div>}>
+    <div className={classNames(className)}>
+      <Canvas frameloop={'demand'}>
+        <SceneContents scene={scene} loop={loop} />
+      </Canvas>
+    </div>
+  </Suspense>
 }
 
 
@@ -52,10 +55,10 @@ const SceneContents = ({ scene, loop }: {
   
   return <>
     <listenerContext.Provider value={listener}>
-      <Suspense fallback={null}>
+      {/* <Suspense fallback={null}> */}
         <Gltf src="https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/16e2408/2.0/Sponza/glTF/Sponza.gltf" />
         <EnvironmentHandler/>
-      </Suspense>
+      {/* </Suspense> */}
       <CameraController/>
       <ambientLight /> 
       <pointLight position={[10, 10, 10]} />

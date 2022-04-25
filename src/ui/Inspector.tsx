@@ -1,8 +1,9 @@
 import { Dispatch, SetStateAction } from 'react'
-import styles from './App.module.css'
+import styles from './Inspector.module.css'
 import * as model from 'model/model'
 import produce from 'immer'
 import { useTBVector3 } from 'scene3d/useMathStructs'
+import classNames from 'classnames'
 
 
 
@@ -10,20 +11,22 @@ export const Inspector = ({
   setLoop,
   selectedSound,
   onChange,
+  className,
 }: {
   setLoop: Dispatch<SetStateAction<boolean>>,
   selectedSound: model.SoundSource,
   onChange: Dispatch<model.SoundSource>,
+  className?: string,
 }) => {
   // switch between 3 vector references on each update for react-three to notice
   // the mutations
   const newPos = useTBVector3()
   
-  return <header className={styles.title}>
+  return <aside className={classNames(className, styles.main)}>
     <p>
-      Sound Options
+      Sound Source Options
     </p>
-    <p className={styles.basic}>
+    <p className={styles.slider}>
       X:
       -5
       <input
@@ -40,7 +43,7 @@ export const Inspector = ({
       />
       5
     </p>
-    <p className={styles.basic}>
+    <p className={styles.slider}>
       Y:
       -5
       <input
@@ -57,7 +60,7 @@ export const Inspector = ({
       />
       5
     </p>
-    <p className={styles.basic}>
+    <p className={styles.slider}>
       Z:
       -5
       <input
@@ -75,7 +78,7 @@ export const Inspector = ({
       5
     </p>
     <br/>
-    <p className={styles.basic}>
+    <p className={styles.slider}>
       Yaw:
       -180
       <input
@@ -90,7 +93,7 @@ export const Inspector = ({
       />
       180
     </p>
-    <p className={styles.basic}>
+    <p className={styles.slider}>
       Pitch:
       -90
       <input
@@ -106,7 +109,7 @@ export const Inspector = ({
       90
     </p>
     <br/>
-    <p className={styles.basic}>
+    <p className={styles.slider}>
       Cone inner angle:
       0
       <input
@@ -121,7 +124,7 @@ export const Inspector = ({
       />
       180
     </p>
-    <p className={styles.basic}>
+    <p className={styles.slider}>
       Cone attenuation distance:
       0
       <input
@@ -136,20 +139,20 @@ export const Inspector = ({
       />
       5
     </p>
-    {/* <p className={styles.basic}>Inner Length:
+    {/* <p className={styles.slider}>Inner Length:
       <input defaultValue={selectedSound.innerLength} type='range' placeholder='Roll' required/>
     </p>
-    <p className={styles.basic}>Inner Width:
+    <p className={styles.slider}>Inner Width:
       <input defaultValue={selectedSound.innerWidth} type='range' placeholder='Roll' required/>
     </p>
-    <p className={styles.basic}>Outer Length:
+    <p className={styles.slider}>Outer Length:
       <input defaultValue={selectedSound.outerLength} type='range' placeholder='Roll' required/>
     </p>
-    <p className={styles.basic}>Outer Width:
+    <p className={styles.slider}>Outer Width:
       <input defaultValue={selectedSound.outerWidth} type='range' placeholder='Roll' required/>
     </p>
     <button onClick={() => setLoop(curr => !curr)}>
       Loop? (Temp)
     </button> */}
-  </header>
+  </aside>
 }

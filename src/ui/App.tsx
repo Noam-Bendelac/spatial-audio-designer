@@ -29,20 +29,19 @@ export const App = () => {
       { started
       ? <Scene scene={scene} loop={loop} className={styles.canvas} />
       : <div
-          className={styles.canvas}
+          className={styles.loadingWrapper}
           onClick={() => setStarted(true)}
-        >Click to load app</div>
+        ><p className={styles.loading}>Click to load app</p></div>
       }
       {/* sound menu */}
-      <div className={styles.sidebar}>
-        <Inspector
-          setLoop={setLoop}
-          selectedSound={selectedSound}
-          onChange={newSoundSource => setScene(draft => {
-            draft.soundSources[0] = newSoundSource
-          })}
-        />
-      </div>
+      <Inspector
+        className={styles.sidebar}
+        setLoop={setLoop}
+        selectedSound={selectedSound}
+        onChange={newSoundSource => setScene(draft => {
+          draft.soundSources[0] = newSoundSource
+        })}
+      />
       
       
     </div>

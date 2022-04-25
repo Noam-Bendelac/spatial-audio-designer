@@ -13,15 +13,28 @@ export const AudioField = ({
 }: {
   soundSource: model.SoundSource,
   visible: boolean,
-}) => <mesh
+}) => {
+  const maxLength = 20
+  return <group
     scale={1}
     visible={visible}
-    rotation={[0, 0, Math.PI/2]}
-    position={[soundSource.maxDistance / 2, 0, 0]}
   >
-    <ConeAngleGeometry angle={soundSource.coneInnerAngle} height={soundSource.maxDistance} />
-    <meshPhongMaterial color='red' opacity={0.15} transparent={true} side={DoubleSide} />
-  </mesh>
+    <mesh
+      position={[maxLength / 2, 0, 0]}
+      rotation={[0, 0, Math.PI/2]}
+    >
+      <ConeAngleGeometry angle={soundSource.coneOuterAngle} height={maxLength} />
+      <meshPhongMaterial color='red' opacity={0.08} transparent={true} side={DoubleSide} />
+    </mesh>
+    <mesh
+      position={[soundSource.refDistance / 2, 0, 0]}
+      rotation={[0, 0, Math.PI/2]}
+    >
+      <ConeAngleGeometry angle={soundSource.coneInnerAngle} height={soundSource.refDistance} />
+      <meshPhongMaterial color='red' opacity={0.1} transparent={true} side={DoubleSide} />
+    </mesh>
+  </group>
+}
 
 
 const ConeAngleGeometry = ({

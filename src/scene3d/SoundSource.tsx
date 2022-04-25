@@ -30,7 +30,6 @@ export const SoundSource = ({
   useEffect(() => {
     positionalAudio?.setDirectionalCone(soundSource.coneInnerAngle, soundSource.coneOuterAngle, soundSource.coneOuterGain)
     positionalAudio?.setRefDistance(soundSource.refDistance)
-    positionalAudio?.setMaxDistance(soundSource.maxDistance)
     positionalAudio?.setVolume(.2)
   }, [positionalAudio, soundSource])
   

@@ -13,7 +13,6 @@ import { Vector3 } from 'three'
 // it does not include all application state, such as editing camera location
 export interface Scene {
   readonly soundSources: SoundSource[],
-  readonly viewerCameraStart: DOF5,
 }
 
 export interface SoundSource extends DOF5 {
@@ -25,23 +24,14 @@ export interface SoundSource extends DOF5 {
   readonly coneOuterAngle: number,
   // linear amplitude at edge/outside cone
   readonly coneOuterGain: number,
-  // distance used for distance volume decrease; sound can still be heard beyond this distance
+  // distance used for distance attenuation; sound diminishes but can still be
+  // heard beyond this distance
   readonly refDistance: number,
-  readonly maxDistance: number,
   
   // filename of asset; TODO might change
   readonly soundClip: string | null,
   readonly level: number,
-  readonly speed: number,
-  readonly start: number,
-  readonly stop: number,
-  readonly convolution: ConvolutionSpace,
 }
-
-// TODO add more
-type ConvolutionSpace =
-  | 'none'
-  | 'cathedral'
 
 
 

@@ -1,12 +1,15 @@
 import classNames from 'classnames'
 import { Canvas, useThree, useLoader } from '@react-three/fiber'
-import { useEffect, Suspense } from 'react'
+import { useEffect, Suspense, useMemo, useState } from 'react'
 import * as model from 'model/model'
 import { SoundSource } from 'scene3d/SoundSource'
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 import { Environment } from '@react-three/drei'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { useLimitFramerate } from 'scene3d/useFramerate'
+import { AudioListener, AudioLoader } from 'three'
+import { listenerContext } from 'scene3d/listenerContext'
+import { SyncPromise } from 'SyncPromise'
 
 
 
@@ -38,17 +41,65 @@ const SceneContents = ({ scene, loop }: {
 }) => {
   useLimitFramerate(loop)
   
+  // place listener (where spatial audio is "measured") where camera is
+  const camera = useThree(state => state.camera)
+  const listener = useMemo(() => new AudioListener(), [])
+  useEffect(() => {
+    camera.add(listener)
+  }, [camera, listener])
+  
+  const { audioClips, audioReady } = useAudioClips(scene.soundSources.map(soundSource => soundSource.soundClip))
+  
   return <>
-    <Suspense fallback={null}>
-      <Gltf src="https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/16e2408/2.0/Sponza/glTF/Sponza.gltf" />
-      <EnvironmentHandler/>
-    </Suspense>
-    <CameraController/>
-    <ambientLight /> 
-    <pointLight position={[10, 10, 10]} />
-    {scene.soundSources.map(soundSource => <SoundSource soundSource={soundSource} />)} 
-    {/* <button>Test</button> */}
+    <listenerContext.Provider value={listener}>
+      <Suspense fallback={null}>
+        <Gltf src="https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/16e2408/2.0/Sponza/glTF/Sponza.gltf" />
+        <EnvironmentHandler/>
+      </Suspense>
+      <CameraController/>
+      <ambientLight /> 
+      <pointLight position={[10, 10, 10]} />
+      {scene.soundSources.map((soundSource, idx) => <SoundSource
+        // this is only ok because removing sources isn't supported
+        key={idx}
+        soundSource={soundSource}
+        audioBuffer={soundSource.soundClip === null
+          ? null
+          : (audioClips.get(soundSource.soundClip)?.ifResolved() ?? null)
+        }
+        play={/* (TODO) globalPlay && */ audioReady}
+      />)} 
+      {/* <button>Test</button> */}
+    </listenerContext.Provider>
   </>
+}
+
+
+const useAudioClips = (urls: (string | null)[]) => {
+  // mutable map of loading/loaded audio clips
+  const audioClips = useMemo(() => new Map<string, SyncPromise<AudioBuffer>>(), [])
+  const [audioReady, setAudioReady] = useState(false)
+  const loader = useMemo(() => new AudioLoader(), [])
+  useEffect(() => {
+    urls.forEach(url => {
+      if (!url) return
+      if (!audioClips.has(url)) {
+        // hasn't already started loading; add it to the map
+        audioClips.set(url, new SyncPromise(loader.loadAsync(url)))
+      }
+    })
+    
+    Promise.all(Array.from(audioClips.values()).map(sync => sync.promise)).then(() => {
+      // rerender only when all clips are done loading
+      setAudioReady(true)
+    })
+    
+    // purposefully leave out scene dependency to only load once;
+    // this would break if adding/removing sound sources or changing the filename
+    // were added
+  }, [audioClips, loader])
+  
+  return { audioClips, audioReady }
 }
 
 

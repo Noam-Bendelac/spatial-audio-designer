@@ -1,13 +1,13 @@
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'
 import { speaker } from 'assets'
-import { useLoader } from '@react-three/fiber'
+import { GroupProps, useLoader } from '@react-three/fiber'
 import { useEffect, useMemo } from 'react'
 import { Color, Group, Mesh, MeshPhongMaterial } from 'three'
 
 
 // due to the way the useLoader hook works, it seems this component suspends and
 // must have a <Suspense> *outside* this component
-export const PlaceholderSpeaker = () => {
+export const PlaceholderSpeaker = (props: GroupProps) => {
   // useLoader returns the *same Group instance* for all components if they pass
   // in the same url
   const sourceObj = useLoader(OBJLoader, speaker)
@@ -48,6 +48,7 @@ export const PlaceholderSpeaker = () => {
     scale={.003}
     // by default, the speaker.obj model faces +y; make it face +x:
     rotation={[0, 0, -Math.PI/2]}
+    {...props}
   >
     <primitive
       object={obj}

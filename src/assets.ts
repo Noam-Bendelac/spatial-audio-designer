@@ -14,5 +14,7 @@ export const speaker = '/assets/speaker.obj'
 
 export const scenes = []
 
-export const audioFiles = []
+export const audioFiles = {
+  melody: '/assets/melody.mp3',
+}
 

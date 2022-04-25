@@ -1,63 +1,22 @@
 import { useState } from 'react'
 import { Scene } from 'scene3d/Scene'
 import * as model from 'model/model'
-import logo from './logo.svg'
 import styles from './App.module.css'
-import { Vector3 } from 'three'
 import { Inspector } from 'ui/Inspector'
 import { useImmer } from 'use-immer'
+import { initialScene } from 'initialScene'
 
 export const App = () => {
+  // the webaudio api won't allow the app to play audio if the user hasn't
+  // interacted with the page first: https://developer.chrome.com/blog/autoplay/#web-audio
+  // this is to prevent intrusive autoplay
+  const [started, setStarted] = useState(false)
+  
   // pause looping during development for performance
   const [loop, setLoop] = useState(true)
 
   // placeholder initial scene
-  const [scene, setScene] = useImmer<model.Scene>(() => ({
-    viewerCameraStart: {
-      position: new Vector3(0, 0, 0),
-      orientation: {
-        yaw: 0,
-        pitch: 0,
-      },
-    },
-    soundSources: [{
-      name: 'speaker 1',
-      position: new Vector3(2,0.5,1),
-      orientation: {
-        yaw: 70,
-        pitch: 30,
-      },
-      coneInnerAngle: 70,
-      coneOuterAngle: 360,
-      coneOuterGain: 0,
-      refDistance: 5,
-      maxDistance: 15,
-      level: 1,
-      soundClip: null,
-      speed: 1,
-      start: 0,
-      stop: 1,
-      convolution: 'none',
-    }, {
-      name: 'speaker 2',
-      position: new Vector3(-2,0.5,-1),
-      orientation: {
-        yaw: -70,
-        pitch: 45,
-      },
-      coneInnerAngle: 30,
-      coneOuterAngle: 360,
-      coneOuterGain: 0,
-      refDistance: 3,
-      maxDistance: 15,
-      level: 1,
-      soundClip: null,
-      speed: 1,
-      start: 0,
-      stop: 1,
-      convolution: 'none',
-    }],
-  }))
+  const [scene, setScene] = useImmer<model.Scene>(initialScene)
   
   // eventually this will be the currently selected (clicked) scene element
   // const selectedElement = scene.object3Ds[0]
@@ -67,8 +26,13 @@ export const App = () => {
   
   return (
     <div className={styles.app}>
-      <Scene scene={scene} loop={loop} className={styles.canvas} />
-
+      { started
+      ? <Scene scene={scene} loop={loop} className={styles.canvas} />
+      : <div
+          className={styles.canvas}
+          onClick={() => setStarted(true)}
+        >Click to load app</div>
+      }
       {/* sound menu */}
       <div className={styles.sidebar}>
         <Inspector

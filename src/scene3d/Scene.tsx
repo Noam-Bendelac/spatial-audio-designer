@@ -11,6 +11,7 @@ import { AudioListener, AudioLoader } from 'three'
 import { listenerContext } from 'scene3d/listenerContext'
 import { SyncPromise } from 'SyncPromise'
 import styles from 'ui/App.module.css'
+import { AudioShader } from 'scene3d/AudioShader'
 
 
 
@@ -56,7 +57,7 @@ const SceneContents = ({ scene, loop }: {
   return <>
     <listenerContext.Provider value={listener}>
       {/* <Suspense fallback={null}> */}
-        <Gltf src="https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/16e2408/2.0/Sponza/glTF/Sponza.gltf" />
+        <Sponza soundSources={scene.soundSources} />
         <EnvironmentHandler/>
       {/* </Suspense> */}
       <CameraController/>
@@ -137,11 +138,21 @@ const EnvironmentHandler = () => {
 }
 
 
-const Gltf = ({ src }: { src: string }) => {
-  const gltf = useLoader(GLTFLoader, src)
-  return (
-    <primitive object={gltf.scene} />
-  )
+// const Gltf = ({ src }: { src: string }) => {
+//   const gltf = useLoader(GLTFLoader, src)
+//   return (
+//     <primitive object={gltf.scene} />
+//   )
+// }
+
+const Sponza = ({ soundSources }: { soundSources: model.SoundSource[] }) => {
+  const sponza = useGltf("https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/16e2408/2.0/Sponza/glTF/Sponza.gltf")
+  
+  return <AudioShader renderScene={sponza} soundSources={soundSources} />
+}
+
+const useGltf = (src: string) => {
+  return useLoader(GLTFLoader, src).scene
 }
 
 

@@ -5,10 +5,12 @@ import { orientationYPToEuler } from 'model/math'
 import { useEuler } from 'scene3d/useMathStructs'
 
 
-const numSoundSources = 10
+const maxSoundSources = 10
 
 type Uniforms = {
+  numSoundSources: { value: number },
   soundSources: { value: SoundSourceUniform[] },
+  gamma: { value: number },
 }
 type SoundSourceUniform = {
   position: Vector3,
@@ -31,7 +33,8 @@ export const HeatmapRenderer = ({
 }) => {
   // allocate uniforms memory once per mount
   const uniforms: Uniforms = useMemo(() => ({
-    soundSources: { value: Array(numSoundSources).fill(undefined).map<SoundSourceUniform>((_, idx) => ({
+    numSoundSources: { value: 0 },
+    soundSources: { value: Array(maxSoundSources).fill(undefined).map<SoundSourceUniform>((_, idx) => ({
       position: new Vector3(),
       orientation: new Vector3(),
       coneInnerAngle: 0,
@@ -39,7 +42,8 @@ export const HeatmapRenderer = ({
       coneOuterGain: 0,
       refDistance: 0,
       color: new Color(),
-    })) }
+    })) },
+    gamma: { value: 1.8 },
   }), [])
   
   const heatmapMaterial = useMemo(() => new ShaderMaterial({
@@ -54,13 +58,17 @@ export const HeatmapRenderer = ({
   
   
   // every render, update uniform values
+  uniforms.numSoundSources.value = min(maxSoundSources, soundSources.length)
   const eulerLocal = useEuler()
   uniforms.soundSources.value.forEach((soundSourceUniform, idx) => {
+    // uniform soundSources beyond the number of scene soundSources are ignored,
+    // no need to update them
     if (idx < soundSources.length) {
       const soundSource = soundSources[idx]
       
       soundSourceUniform.position.copy(soundSource.position)
       orientationYPToEuler(soundSource.orientation, eulerLocal)
+      // rotate a unit vector by the orientation:
       soundSourceUniform.orientation.set(1, 0, 0).applyEuler(eulerLocal)
       
       soundSourceUniform.coneInnerAngle = soundSource.coneInnerAngle
@@ -68,10 +76,7 @@ export const HeatmapRenderer = ({
       soundSourceUniform.coneOuterGain = soundSource.coneOuterGain
       soundSourceUniform.refDistance = soundSource.refDistance
       
-      // TODO list length is wrong
-      soundSourceUniform.color.setHSL(idx / uniforms.soundSources.value.length, 0.9, 0.5)
-    } else {
-      soundSourceUniform.color.setRGB(0,0,0)
+      soundSourceUniform.color.setHSL(idx / uniforms.numSoundSources.value, 0.98, 0.51)
     }
   })
   // TODO if structs in state are changed to mutable, add a useFrame updater
@@ -106,6 +111,8 @@ export const HeatmapRenderer = ({
 }
 
 
+const min = (a: number, b: number) => a < b ? a : b
+
 
 const vertexShader = `
 varying vec3 vWorldPosition;
@@ -129,8 +136,9 @@ struct SoundSource {
   vec3 color;
 };
 
-uniform SoundSource soundSources[${numSoundSources}];
-uniform vec3 color;
+uniform int numSoundSources;
+uniform SoundSource soundSources[${maxSoundSources}];
+uniform float gamma;
 
 varying vec3 vWorldPosition;
 
@@ -145,7 +153,7 @@ void main() {
   
   vec3 sumOfColors = vec3(0,0,0);
   
-  for (int i = 0; i < ${numSoundSources}; i++) {
+  for (int i = 0; i < numSoundSources; i++) {
     SoundSource soundSource = soundSources[i];
     vec3 sourceToFrag = vWorldPosition - soundSource.position;
     float distToSource = length(sourceToFrag);
@@ -153,6 +161,7 @@ void main() {
     float rolloffFactor = 1.0;
     float refDist = soundSource.refDistance;
     float distanceCoeff = refDist / (refDist + rolloffFactor * (max(distToSource, refDist) - refDist));
+    distanceCoeff = pow(distanceCoeff, 1.0 / 0.8);
     
     // to find angle away from source's axis:
     // dot product = mag1*mag2*cos(theta)
@@ -176,7 +185,10 @@ void main() {
     sumOfColors += soundSource.color * (distanceCoeff * angularCoeff);
   }
   
-  gl_FragColor = vec4(sumOfColors, 1);
+  vec3 averageOfColors = sumOfColors / float(numSoundSources);
+  vec3 adjustedColor = 2.5 * pow(averageOfColors, vec3(1.0/gamma));
+  
+  gl_FragColor = vec4(adjustedColor, 1);
 }
 `
 

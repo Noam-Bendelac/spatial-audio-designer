@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Scene } from 'scene3d/Scene'
 import * as model from 'model/model'
 import styles from './App.module.css'
@@ -25,9 +25,10 @@ export const App = () => {
   
   const onClickSave = useOnClickSave(scene)
   
-  // eventually this will be the currently selected (clicked) scene element
-  // const selectedElement = scene.object3Ds[0]
-  const selectedSound = scene.soundSources[0]
+  const [selectedSoundIdx, setSelectedSoundIdx] = useState(0)
+  const selectedSound: model.SoundSource | undefined = useMemo(() => (
+    scene.soundSources[selectedSoundIdx]
+  ), [scene, selectedSoundIdx])
   
   return (
     <div className={styles.app}>
@@ -37,6 +38,8 @@ export const App = () => {
           scene={scene}
           showCones={showCones}
           showHeatmap={showHeatmap}
+          selectedSoundIdx={selectedSoundIdx}
+          setSelectedSoundIdx={setSelectedSoundIdx}
         />
       : <div
           className={styles.loadingWrapper}
@@ -52,7 +55,7 @@ export const App = () => {
         onClickSave={onClickSave}
         selectedSound={selectedSound}
         onChange={newSoundSource => setScene(draft => {
-          draft.soundSources[0] = newSoundSource
+          draft.soundSources[selectedSoundIdx] = newSoundSource
         })}
       />
       

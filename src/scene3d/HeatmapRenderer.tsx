@@ -5,7 +5,7 @@ import { orientationYPToEuler } from 'model/math'
 import { useEuler } from 'scene3d/useMathStructs'
 
 
-const maxSoundSources = 10
+const maxSoundSources = 15
 
 type Uniforms = {
   numSoundSources: { value: number },
@@ -43,7 +43,7 @@ export const HeatmapRenderer = ({
       refDistance: 0,
       color: new Color(),
     })) },
-    gamma: { value: 1.8 },
+    gamma: { value: 1.0 },
   }), [])
   
   const heatmapMaterial = useMemo(() => new ShaderMaterial({
@@ -186,7 +186,7 @@ void main() {
   }
   
   vec3 averageOfColors = sumOfColors / float(numSoundSources);
-  vec3 adjustedColor = 2.5 * pow(averageOfColors, vec3(1.0/gamma));
+  vec3 adjustedColor = 3.5 * pow(averageOfColors, vec3(1.0/gamma));
   
   gl_FragColor = vec4(adjustedColor, 1);
 }

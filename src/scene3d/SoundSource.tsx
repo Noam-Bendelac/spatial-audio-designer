@@ -1,5 +1,5 @@
 import * as model from 'model/model'
-import { useCallback, useContext, useEffect, useState } from 'react'
+import { Dispatch, useCallback, useContext, useEffect, useState } from 'react'
 import { PlaceholderSpeaker } from 'scene3d/PlaceholderSpeaker'
 import { AudioField } from "scene3d/AudioField"
 import { useTBEuler } from 'scene3d/useMathStructs'
@@ -13,11 +13,15 @@ export const SoundSource = ({
   audioBuffer,
   play,
   showCones,
+  selected,
+  onClick,
 }: {
   soundSource: model.SoundSource,
   audioBuffer: AudioBuffer | null,
   play: boolean,
   showCones: boolean,
+  selected: boolean,
+  onClick: Dispatch<void>,
 }) => {
   const rotationEuler = useTBEuler()
   
@@ -56,7 +60,7 @@ export const SoundSource = ({
       position={soundSource.position}
       rotation={orientationYPToEuler(soundSource.orientation, rotationEuler)}
     >
-      <PlaceholderSpeaker onClick={() => { /* TODO */} } />
+      <PlaceholderSpeaker selected={selected} onClick={() => onClick()} />
       <positionalAudio
         args={[listener]}
         ref={positionalAudioRef}

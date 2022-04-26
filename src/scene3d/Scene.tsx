@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import { Canvas, useThree, useLoader } from '@react-three/fiber'
-import { useEffect, Suspense, useMemo, useState } from 'react'
+import { useEffect, Suspense, useMemo, useState, Dispatch } from 'react'
 import * as model from 'model/model'
 import { SoundSource } from 'scene3d/SoundSource'
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
@@ -20,11 +20,15 @@ export const Scene = ({
   scene,
   showCones,
   showHeatmap,
+  selectedSoundIdx,
+  setSelectedSoundIdx,
   className,
 }: {
   scene: model.Scene,
   showCones: boolean,
   showHeatmap: boolean,
+  selectedSoundIdx: number,
+  setSelectedSoundIdx: Dispatch<number>,
   className?: string,
 }) => {
   
@@ -38,6 +42,8 @@ export const Scene = ({
           scene={scene}
           showCones={showCones}
           showHeatmap={showHeatmap}
+          selectedSoundIdx={selectedSoundIdx}
+          setSelectedSoundIdx={setSelectedSoundIdx}
         />
       </Canvas>
     </div>
@@ -50,10 +56,14 @@ const SceneContents = ({
   scene,
   showCones,
   showHeatmap,
+  selectedSoundIdx,
+  setSelectedSoundIdx,
 }: {
   scene: model.Scene,
   showCones: boolean,
   showHeatmap: boolean,
+  selectedSoundIdx: number,
+  setSelectedSoundIdx: Dispatch<number>,
 }) => {
   useLimitFramerate(true)
   
@@ -86,6 +96,8 @@ const SceneContents = ({
         }
         play={/* (TODO) globalPlay && */ audioReady}
         showCones={showCones}
+        selected={selectedSoundIdx === idx}
+        onClick={() => setSelectedSoundIdx(idx)}
       />)}
     </listenerContext.Provider>
   </>
@@ -146,34 +158,10 @@ const EnvironmentHandler = () => {
       files="../../assets/evening_meadow_4k.hdr"//.hdr
       preset={undefined}
     /> 
-    // <Environment
-    //   background//={'only'} // Whether to affect scene.background
-    //   files="../../assets/ballroom_4k.hdr"//.hdr
-    //   near={0}
-    //   far={15}
-    //   preset={undefined}
-    // /> 
-    // <Environment
-    //           background={'only'} // Whether to affect scene.background
-    //           files="../../assets/mosaic_tunnel_4k.hdr"//.hdr
-    // />
-    // <Environment
-    //           background={'only'} // Whether to affect scene.background
-    //           files="../../assets/small_cathedral_02_4k.hdr"//.hdr
-    //           near={0}
-    //           far={15}
-    //           preset={undefined} 
-    // />
   )
 }
 
 
-// const Gltf = ({ src }: { src: string }) => {
-//   const gltf = useLoader(GLTFLoader, src)
-//   return (
-//     <primitive object={gltf.scene} />
-//   )
-// }
 
 const GltfHeatmap = ({
   src,

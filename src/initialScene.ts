@@ -12,7 +12,7 @@ export const initialScenes: model.Scene[] = [
       position: new Vector3(2,0.5,1),
       orientation: {
         yaw: 70,
-        pitch: 30,
+        pitch: 5,
       },
       coneInnerAngle: 70,
       coneOuterAngle: 90,
@@ -25,7 +25,7 @@ export const initialScenes: model.Scene[] = [
       position: new Vector3(4,0.5,1),
       orientation: {
         yaw: -180,
-        pitch: 20,
+        pitch: 5,
       },
       coneInnerAngle: 30,
       coneOuterAngle: 60,
@@ -38,7 +38,7 @@ export const initialScenes: model.Scene[] = [
       position: new Vector3(3.5,0.5,1),
       orientation: {
         yaw: -180,
-        pitch: 20,
+        pitch: 5,
       },
       coneInnerAngle: 30,
       coneOuterAngle: 60,
@@ -51,7 +51,7 @@ export const initialScenes: model.Scene[] = [
       position: new Vector3(3,0.5,1),
       orientation: {
         yaw: -180,
-        pitch: 25,
+        pitch: 5,
       },
       coneInnerAngle: 30,
       coneOuterAngle: 60,
@@ -64,7 +64,7 @@ export const initialScenes: model.Scene[] = [
       position: new Vector3(2.5,0.5,1),
       orientation: {
         yaw: -180,
-        pitch: 25,
+        pitch: 5,
       },
       coneInnerAngle: 30,
       coneOuterAngle: 60,
@@ -77,7 +77,7 @@ export const initialScenes: model.Scene[] = [
       position: new Vector3(2,0.5,1),
       orientation: {
         yaw: -180,
-        pitch: 25,
+        pitch: 5,
       },
       coneInnerAngle: 30,
       coneOuterAngle: 60,
@@ -90,7 +90,7 @@ export const initialScenes: model.Scene[] = [
       position: new Vector3(1.5,0.5,1),
       orientation: {
         yaw: -180,
-        pitch: 25,
+        pitch: 5,
       },
       coneInnerAngle: 30,
       coneOuterAngle: 60,
@@ -103,7 +103,7 @@ export const initialScenes: model.Scene[] = [
       position: new Vector3(1,0.5,1),
       orientation: {
         yaw: -180,
-        pitch: 25,
+        pitch: 5,
       },
       coneInnerAngle: 30,
       coneOuterAngle: 60,
@@ -116,7 +116,7 @@ export const initialScenes: model.Scene[] = [
       position: new Vector3(0.5,0.5,1),
       orientation: {
         yaw: -180,
-        pitch: 25,
+        pitch: 5,
       },
       coneInnerAngle: 30,
       coneOuterAngle: 60,
@@ -129,7 +129,7 @@ export const initialScenes: model.Scene[] = [
       position: new Vector3(-0.5,0.5,1),
       orientation: {
         yaw: 0,
-        pitch: 25,
+        pitch: 5,
       },
       coneInnerAngle: 30,
       coneOuterAngle: 60,
@@ -142,7 +142,7 @@ export const initialScenes: model.Scene[] = [
       position: new Vector3(-1,0.5,1),
       orientation: {
         yaw: 0,
-        pitch: 25,
+        pitch: 5,
       },
       coneInnerAngle: 30,
       coneOuterAngle: 60,
@@ -155,7 +155,7 @@ export const initialScenes: model.Scene[] = [
       position: new Vector3(-1.5,0.5,1),
       orientation: {
         yaw: 0,
-        pitch: 25,
+        pitch: 5,
       },
       coneInnerAngle: 30,
       coneOuterAngle: 60,
@@ -168,7 +168,7 @@ export const initialScenes: model.Scene[] = [
       position: new Vector3(-2,0.5,1),
       orientation: {
         yaw: 0,
-        pitch: 25,
+        pitch: 5,
       },
       coneInnerAngle: 30,
       coneOuterAngle: 60,

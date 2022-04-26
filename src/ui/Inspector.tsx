@@ -2,7 +2,6 @@ import { Dispatch } from 'react'
 import styles from './Inspector.module.css'
 import * as model from 'model/model'
 import produce from 'immer'
-import { useTBVector3 } from 'scene3d/useMathStructs'
 import classNames from 'classnames'
 
 
@@ -20,13 +19,13 @@ export const Inspector = ({
   onToggleHeatmap: Dispatch<void>,
   onToggleScene: Dispatch<void>,
   onClickSave: Dispatch<void>,
-  selectedSound: model.SoundSource,
+  selectedSound: model.SoundSource | undefined,
   onChange: Dispatch<model.SoundSource>,
   className?: string,
 }) => {
   // switch between 3 vector references on each update for react-three to notice
   // the mutations
-  const newPos = useTBVector3()
+  // const newPos = useTBVector3()
   
   return <aside className={classNames(className, styles.main)}>
     <div className={styles.spacer} />
@@ -52,11 +51,10 @@ export const Inspector = ({
       -5
       <input
         type='range'
-        value={selectedSound.position.x}
-        onChange={evt => onChange(produce(selectedSound, draft => {
-          draft.position = newPos
-            .copy(draft.position)
-            .setX(Number.parseFloat(evt.target.value))
+        value={selectedSound?.position.x}
+        title={selectedSound?.position.x.toString()}
+        onChange={evt => selectedSound && onChange(produce(selectedSound, draft => {
+          draft.position = draft.position.clone().setX(Number.parseFloat(evt.target.value))
         }))}
         min='-5'
         max='5'
@@ -69,11 +67,10 @@ export const Inspector = ({
       -5
       <input
         type='range'
-        value={selectedSound.position.y}
-        onChange={evt => onChange(produce(selectedSound, draft => {
-          draft.position = newPos
-            .copy(draft.position)
-            .setY(Number.parseFloat(evt.target.value))
+        value={selectedSound?.position.y}
+        title={selectedSound?.position.y.toString()}
+        onChange={evt => selectedSound && onChange(produce(selectedSound, draft => {
+          draft.position = draft.position.clone().setY(Number.parseFloat(evt.target.value))
         }))}
         min='-5'
         max='5'
@@ -86,11 +83,10 @@ export const Inspector = ({
       -5
       <input
         type='range'
-        value={selectedSound.position.z}
-        onChange={evt => onChange(produce(selectedSound, draft => {
-          draft.position = newPos
-            .copy(draft.position)
-            .setZ(Number.parseFloat(evt.target.value))
+        value={selectedSound?.position.z}
+        title={selectedSound?.position.z.toString()}
+        onChange={evt => selectedSound && onChange(produce(selectedSound, draft => {
+          draft.position = draft.position.clone().setZ(Number.parseFloat(evt.target.value))
         }))}
         min='-5'
         max='5'
@@ -106,8 +102,9 @@ export const Inspector = ({
       -180
       <input
         type='range'
-        value={selectedSound.orientation.yaw}
-        onChange={evt => onChange(produce(selectedSound, draft => {
+        value={selectedSound?.orientation.yaw}
+        title={selectedSound?.orientation.yaw.toString()}
+        onChange={evt => selectedSound && onChange(produce(selectedSound, draft => {
           draft.orientation.yaw = Number.parseFloat(evt.target.value)
         }))}
         min='-180'
@@ -121,8 +118,9 @@ export const Inspector = ({
       -90
       <input
         type='range'
-        value={selectedSound.orientation.pitch}
-        onChange={evt => onChange(produce(selectedSound, draft => {
+        value={selectedSound?.orientation.pitch}
+        title={selectedSound?.orientation.pitch.toString()}
+        onChange={evt => selectedSound && onChange(produce(selectedSound, draft => {
           draft.orientation.pitch = Number.parseFloat(evt.target.value)
         }))}
         min='-90'
@@ -139,8 +137,9 @@ export const Inspector = ({
       0
       <input
         type='range'
-        value={selectedSound.coneInnerAngle}
-        onChange={evt => onChange(produce(selectedSound, draft => {
+        value={selectedSound?.coneInnerAngle}
+        title={selectedSound?.coneInnerAngle.toString()}
+        onChange={evt => selectedSound && onChange(produce(selectedSound, draft => {
           draft.coneInnerAngle = Number.parseFloat(evt.target.value)
         }))}
         min='0'
@@ -154,8 +153,9 @@ export const Inspector = ({
       0
       <input
         type='range'
-        value={selectedSound.coneOuterAngle}
-        onChange={evt => onChange(produce(selectedSound, draft => {
+        value={selectedSound?.coneOuterAngle}
+        title={selectedSound?.coneOuterAngle.toString()}
+        onChange={evt => selectedSound && onChange(produce(selectedSound, draft => {
           draft.coneOuterAngle = Number.parseFloat(evt.target.value)
         }))}
         min='0'
@@ -169,8 +169,9 @@ export const Inspector = ({
       0
       <input
         type='range'
-        value={selectedSound.coneOuterGain}
-        onChange={evt => onChange(produce(selectedSound, draft => {
+        value={selectedSound?.coneOuterGain}
+        title={selectedSound?.coneOuterGain.toString()}
+        onChange={evt => selectedSound && onChange(produce(selectedSound, draft => {
           draft.coneOuterGain = Number.parseFloat(evt.target.value)
         }))}
         min='0'
@@ -184,8 +185,9 @@ export const Inspector = ({
       0
       <input
         type='range'
-        value={selectedSound.refDistance}
-        onChange={evt => onChange(produce(selectedSound, draft => {
+        value={selectedSound?.refDistance}
+        title={selectedSound?.refDistance.toString()}
+        onChange={evt => selectedSound && onChange(produce(selectedSound, draft => {
           draft.refDistance = Number.parseFloat(evt.target.value)
         }))}
         min='0'

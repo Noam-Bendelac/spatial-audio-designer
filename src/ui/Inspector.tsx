@@ -41,8 +41,9 @@ export const Inspector = ({
       <button onClick={() => onToggleScene?.()}>Toggle between scenes</button>
       <button onClick={() => onClickSave()}>Save current scene</button>
     </div>
-    
     <div className={styles.spacer} />
+    
+    
     <h1>
       Sound Source Options
     </h1>
@@ -98,6 +99,8 @@ export const Inspector = ({
       5
     </p>
     <div className={styles.spacer} />
+    
+    
     <p className={styles.slider}>
       Yaw:
       -180
@@ -129,6 +132,8 @@ export const Inspector = ({
       90
     </p>
     <div className={styles.spacer} />
+    
+    
     <p className={styles.slider}>
       Cone inner angle:
       0
@@ -139,10 +144,40 @@ export const Inspector = ({
           draft.coneInnerAngle = Number.parseFloat(evt.target.value)
         }))}
         min='0'
-        max='180'
+        max='360'
         step='1'
       />
-      180
+      360
+    </p>
+    <p className={styles.slider}>
+      Cone outer angle:
+      0
+      <input
+        type='range'
+        value={selectedSound.coneOuterAngle}
+        onChange={evt => onChange(produce(selectedSound, draft => {
+          draft.coneOuterAngle = Number.parseFloat(evt.target.value)
+        }))}
+        min='0'
+        max='360'
+        step='1'
+      />
+      360
+    </p>
+    <p className={styles.slider}>
+      Cone outer level:
+      0
+      <input
+        type='range'
+        value={selectedSound.coneOuterGain}
+        onChange={evt => onChange(produce(selectedSound, draft => {
+          draft.coneOuterGain = Number.parseFloat(evt.target.value)
+        }))}
+        min='0'
+        max='1'
+        step='.01'
+      />
+      1
     </p>
     <p className={styles.slider}>
       Cone attenuation distance:
@@ -159,20 +194,5 @@ export const Inspector = ({
       />
       5
     </p>
-    {/* <p className={styles.slider}>Inner Length:
-      <input defaultValue={selectedSound.innerLength} type='range' placeholder='Roll' required/>
-    </p>
-    <p className={styles.slider}>Inner Width:
-      <input defaultValue={selectedSound.innerWidth} type='range' placeholder='Roll' required/>
-    </p>
-    <p className={styles.slider}>Outer Length:
-      <input defaultValue={selectedSound.outerLength} type='range' placeholder='Roll' required/>
-    </p>
-    <p className={styles.slider}>Outer Width:
-      <input defaultValue={selectedSound.outerWidth} type='range' placeholder='Roll' required/>
-    </p>
-    <button onClick={() => setLoop(curr => !curr)}>
-      Loop? (Temp)
-    </button> */}
   </aside>
 }

@@ -60,16 +60,14 @@ const SceneContents = ({ scene }: { scene: model.Scene }) => {
       <ambientLight /> 
       <pointLight position={[10, 10, 10]} />
       {scene.soundSources.map((soundSource, idx) => <SoundSource
-        // this is only ok because removing sources isn't supported
-        key={idx}
+        key={`${soundSource.name}-${soundSource.soundClip}`}
         soundSource={soundSource}
         audioBuffer={soundSource.soundClip === null
           ? null
           : (audioClips.get(soundSource.soundClip)?.ifResolved() ?? null)
         }
         play={/* (TODO) globalPlay && */ audioReady}
-      />)} 
-      {/* <button>Test</button> */}
+      />)}
     </listenerContext.Provider>
   </>
 }

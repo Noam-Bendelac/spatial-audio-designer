@@ -44,7 +44,14 @@ export const SoundSource = ({
     }
   }, [positionalAudio, play, audioBuffer])
   
-  return <Suspense fallback={null}>
+  useEffect(() => {
+    // cleanup
+    return () => {
+      positionalAudio?.disconnect()
+    }
+  }, [positionalAudio])
+  
+  return (
     <group
       position={soundSource.position}
       rotation={orientationYPToEuler(soundSource.orientation, rotationEuler)}
@@ -58,5 +65,5 @@ export const SoundSource = ({
       <AudioField soundSource={soundSource} visible={showField} />
       {/* other elements like gizmos go here, under the same transform */}
     </group>
-  </Suspense>
+  )
 }

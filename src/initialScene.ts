@@ -178,34 +178,82 @@ export const initialScenes: model.Scene[] = [
       soundClip: audioFiles.song.track_15_Pad3,
     }],
   },
-  // melody with 2 sounds sources scene
+  // TARGET 2 sounds sources scene
   {
     soundSources: [{
-      name: 'speaker 1',
-      position: new Vector3(2,0.5,1),
-      orientation: {
-        yaw: 70,
-        pitch: 25,
+      "name": "speaker 1",
+      "position": new Vector3(
+        3.4,
+        0.8,
+        -1.6
+      ),
+      "orientation": {
+        "yaw": -92,
+        "pitch": 0
       },
-      coneInnerAngle: 30,
-      coneOuterAngle: 90,
-      coneOuterGain: 0,
-      refDistance: 3,
-      level: 1,
-      soundClip: audioFiles.melody,
-    }, {
-      name: 'speaker 2',
-      position: new Vector3(-2,0.5,-1),
-      orientation: {
-        yaw: -70,
-        pitch: 5,
+      "coneInnerAngle": 30,
+      "coneOuterAngle": 50,
+      "coneOuterGain": 0,
+      "refDistance": 3,
+      "level": 1,
+      "soundClip": "/assets/melody.mp3"
+    },
+    {
+      "name": "speaker 2",
+      "position": new Vector3(
+        -2,
+        0.5,
+        1
+      ),
+      "orientation": {
+        "yaw": 83,
+        "pitch": 5
       },
-      coneInnerAngle: 30,
-      coneOuterAngle: 90,
-      coneOuterGain: 0.2,
-      refDistance: 3,
-      level: 1,
-      soundClip: audioFiles.melody,
+      "coneInnerAngle": 30,
+      "coneOuterAngle": 150,
+      "coneOuterGain": 0.2,
+      "refDistance": 3,
+      "level": 1,
+      "soundClip": "/assets/melody.mp3"
+    }]
+  },
+  // STARTING 2 sounds sources scene
+  {
+    soundSources: [{
+      "name": "speaker 1",
+      "position": new Vector3(
+        2.4,
+        2.0,
+        -0.6
+      ),
+      "orientation": {
+        "yaw": 92,
+        "pitch": 0
+      },
+      "coneInnerAngle": 60,
+      "coneOuterAngle": 120,
+      "coneOuterGain": 0,
+      "refDistance": 3,
+      "level": 1,
+      "soundClip": "/assets/melody.mp3"
+    },
+    {
+      "name": "speaker 2",
+      "position": new Vector3(
+        -2,
+        0.5,
+        1
+      ),
+      "orientation": {
+        "yaw": 83,
+        "pitch": 25
+      },
+      "coneInnerAngle": 20,
+      "coneOuterAngle": 40,
+      "coneOuterGain": 0.2,
+      "refDistance": 3,
+      "level": 1,
+      "soundClip": "/assets/melody.mp3"
     }]
   },
 ]

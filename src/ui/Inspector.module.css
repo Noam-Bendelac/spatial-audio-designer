@@ -19,6 +19,10 @@
   font-size: calc(10px + 2vmin);
   margin: 0;
 }
+.main h2 {
+  font-size: calc(10px + 1vmin);
+  margin: 0;
+}
 
 .item {
   font-size:16px;

@@ -25,9 +25,9 @@ export const App = () => {
   
   const onClickSave = useOnClickSave(scene)
   
-  const [selectedSoundIdx, setSelectedSoundIdx] = useState(0)
+  const [selectedSoundIdx, setSelectedSoundIdx] = useState<number | null>(0)
   const selectedSound: model.SoundSource | undefined = useMemo(() => (
-    scene.soundSources[selectedSoundIdx]
+    selectedSoundIdx === null ? undefined : scene.soundSources[selectedSoundIdx]
   ), [scene, selectedSoundIdx])
   
   return (
@@ -53,9 +53,10 @@ export const App = () => {
         onToggleHeatmap={() => setShowHeatmap(curr => !curr)}
         onToggleScene={() => { setTemplateSceneIdx(curr => (curr + 1) % initialScenes.length) }}
         onClickSave={onClickSave}
+        selectedSoundIdx={selectedSoundIdx}
         selectedSound={selectedSound}
         onChange={newSoundSource => setScene(draft => {
-          draft.soundSources[selectedSoundIdx] = newSoundSource
+          if (selectedSoundIdx !== null) draft.soundSources[selectedSoundIdx] = newSoundSource
         })}
       />
       

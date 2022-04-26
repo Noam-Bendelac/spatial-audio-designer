@@ -11,6 +11,7 @@ export const Inspector = ({
   onToggleHeatmap,
   onToggleScene,
   onClickSave,
+  selectedSoundIdx,
   selectedSound,
   onChange,
   className,
@@ -19,6 +20,7 @@ export const Inspector = ({
   onToggleHeatmap: Dispatch<void>,
   onToggleScene: Dispatch<void>,
   onClickSave: Dispatch<void>,
+  selectedSoundIdx: number | null,
   selectedSound: model.SoundSource | undefined,
   onChange: Dispatch<model.SoundSource>,
   className?: string,
@@ -43,10 +45,11 @@ export const Inspector = ({
     <div className={styles.spacer} />
     
     
-    { selectedSound && <>
+    { selectedSoundIdx !== null && selectedSound && <>
       <h1>
         Sound Source Options
       </h1>
+      <h2>{selectedSoundIdx + 1} - {selectedSound.name}</h2>
       <p className={styles.slider}>
         X:
         -5

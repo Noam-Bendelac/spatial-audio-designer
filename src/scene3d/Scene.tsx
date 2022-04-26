@@ -27,7 +27,7 @@ export const Scene = ({
   scene: model.Scene,
   showCones: boolean,
   showHeatmap: boolean,
-  selectedSoundIdx: number,
+  selectedSoundIdx: number | null,
   setSelectedSoundIdx: Dispatch<number>,
   className?: string,
 }) => {
@@ -62,7 +62,7 @@ const SceneContents = ({
   scene: model.Scene,
   showCones: boolean,
   showHeatmap: boolean,
-  selectedSoundIdx: number,
+  selectedSoundIdx: number | null,
   setSelectedSoundIdx: Dispatch<number>,
 }) => {
   useLimitFramerate(true)

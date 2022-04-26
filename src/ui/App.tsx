@@ -12,6 +12,9 @@ export const App = () => {
   // this is to prevent intrusive autoplay
   const [started, setStarted] = useState(false)
   
+  const [showCones, setShowCones] = useState(false)
+  const [showHeatmap, setShowHeatmap] = useState(true)
+  
   // current "template"/starting scene
   const [templateSceneIdx, setTemplateSceneIdx] = useState(0)
   // scene state
@@ -29,7 +32,12 @@ export const App = () => {
   return (
     <div className={styles.app}>
       { started
-      ? <Scene scene={scene} className={styles.canvas} />
+      ? <Scene
+          className={styles.canvas}
+          scene={scene}
+          showCones={showCones}
+          showHeatmap={showHeatmap}
+        />
       : <div
           className={styles.loadingWrapper}
           onClick={() => setStarted(true)}
@@ -38,8 +46,10 @@ export const App = () => {
       {/* sound menu */}
       <Inspector
         className={styles.sidebar}
-        onClickSave={onClickSave}
+        onToggleCones={() => setShowCones(curr => !curr)}
+        onToggleHeatmap={() => setShowHeatmap(curr => !curr)}
         onToggleScene={() => { setTemplateSceneIdx(curr => (curr + 1) % initialScenes.length) }}
+        onClickSave={onClickSave}
         selectedSound={selectedSound}
         onChange={newSoundSource => setScene(draft => {
           draft.soundSources[0] = newSoundSource

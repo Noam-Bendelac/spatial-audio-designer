@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from 'react'
+import { Dispatch } from 'react'
 import styles from './Inspector.module.css'
 import * as model from 'model/model'
 import produce from 'immer'
@@ -9,16 +9,16 @@ import classNames from 'classnames'
 
 export const Inspector = ({
   onToggleCones,
-  onToggleSpatial,
+  onToggleHeatmap,
   onToggleScene,
   onClickSave,
   selectedSound,
   onChange,
   className,
 }: {
-  onToggleCones?: Dispatch<void>,
-  onToggleSpatial?: Dispatch<void>,
-  onToggleScene?: Dispatch<void>,
+  onToggleCones: Dispatch<void>,
+  onToggleHeatmap: Dispatch<void>,
+  onToggleScene: Dispatch<void>,
   onClickSave: Dispatch<void>,
   selectedSound: model.SoundSource,
   onChange: Dispatch<model.SoundSource>,
@@ -34,11 +34,11 @@ export const Inspector = ({
       Global Options
     </h1>
     <div className={styles.buttonsWrapper}>
-      <button onClick={() => onToggleCones?.()}>Toggle audio field cone visualization</button>
-      <button onClick={() => onToggleSpatial?.()}>Toggle audio field spatial intensity visualization</button>
+      <button onClick={() => onToggleCones()}>Toggle audio field cone visualization</button>
+      <button onClick={() => onToggleHeatmap()}>Toggle audio field heatmap visualization</button>
     </div>
     <div className={styles.buttonsWrapper}>
-      <button onClick={() => onToggleScene?.()}>Toggle between scenes</button>
+      <button onClick={() => onToggleScene()}>Toggle between scenes</button>
       <button onClick={() => onClickSave()}>Save current scene</button>
     </div>
     <div className={styles.spacer} />

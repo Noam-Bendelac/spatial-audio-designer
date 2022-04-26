@@ -11,16 +11,20 @@ import { AudioListener, AudioLoader } from 'three'
 import { listenerContext } from 'scene3d/listenerContext'
 import { SyncPromise } from 'SyncPromise'
 import styles from 'ui/App.module.css'
-import { AudioShader } from 'scene3d/AudioShader'
+import { HeatmapRenderer } from 'scene3d/HeatmapRenderer'
 import { useMemoCompare } from 'useMemoCompare'
 
 
 
 export const Scene = ({ 
   scene,
+  showCones,
+  showHeatmap,
   className,
 }: {
   scene: model.Scene,
+  showCones: boolean,
+  showHeatmap: boolean,
   className?: string,
 }) => {
   
@@ -30,7 +34,11 @@ export const Scene = ({
   return <Suspense fallback={<div className={styles.loading}>Loading...</div>}>
     <div className={classNames(className)}>
       <Canvas frameloop={'demand'}>
-        <SceneContents scene={scene} />
+        <SceneContents
+          scene={scene}
+          showCones={showCones}
+          showHeatmap={showHeatmap}
+        />
       </Canvas>
     </div>
   </Suspense>
@@ -38,7 +46,15 @@ export const Scene = ({
 
 
 // this separation from Scene is needed to be able to use threejs hooks
-const SceneContents = ({ scene }: { scene: model.Scene }) => {
+const SceneContents = ({
+  scene,
+  showCones,
+  showHeatmap,
+}: {
+  scene: model.Scene,
+  showCones: boolean,
+  showHeatmap: boolean,
+}) => {
   useLimitFramerate(true)
   
   // place listener (where spatial audio is "measured") where camera is
@@ -52,10 +68,12 @@ const SceneContents = ({ scene }: { scene: model.Scene }) => {
   
   return <>
     <listenerContext.Provider value={listener}>
-      {/* <Suspense fallback={null}> */}
-        <Sponza soundSources={scene.soundSources} />
-        <EnvironmentHandler/>
-      {/* </Suspense> */}
+      <GltfHeatmap
+        src={"https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/16e2408/2.0/Sponza/glTF/Sponza.gltf"}
+        soundSources={scene.soundSources}
+        showHeatmap={showHeatmap}
+      />
+      <EnvironmentHandler/>
       <CameraController/>
       <ambientLight /> 
       <pointLight position={[10, 10, 10]} />
@@ -67,6 +85,7 @@ const SceneContents = ({ scene }: { scene: model.Scene }) => {
           : (audioClips.get(soundSource.soundClip)?.ifResolved() ?? null)
         }
         play={/* (TODO) globalPlay && */ audioReady}
+        showCones={showCones}
       />)}
     </listenerContext.Provider>
   </>
@@ -156,10 +175,18 @@ const EnvironmentHandler = () => {
 //   )
 // }
 
-const Sponza = ({ soundSources }: { soundSources: model.SoundSource[] }) => {
-  const sponza = useGltf("https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/16e2408/2.0/Sponza/glTF/Sponza.gltf")
+const GltfHeatmap = ({
+  src,
+  soundSources,
+  showHeatmap,
+}: {
+  src: string,
+  soundSources: model.SoundSource[],
+  showHeatmap: boolean,
+}) => {
+  const sceneGroup = useGltf(src)
   
-  return <AudioShader renderScene={sponza} soundSources={soundSources} />
+  return <HeatmapRenderer sceneGroup={sceneGroup} soundSources={soundSources} showHeatmap={showHeatmap} />
 }
 
 const useGltf = (src: string) => {

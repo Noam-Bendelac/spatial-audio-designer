@@ -1,5 +1,5 @@
 import * as model from 'model/model'
-import { Suspense, useCallback, useContext, useEffect, useState } from 'react'
+import { useCallback, useContext, useEffect, useState } from 'react'
 import { PlaceholderSpeaker } from 'scene3d/PlaceholderSpeaker'
 import { AudioField } from "scene3d/AudioField"
 import { useTBEuler } from 'scene3d/useMathStructs'
@@ -12,13 +12,13 @@ export const SoundSource = ({
   soundSource,
   audioBuffer,
   play,
+  showCones,
 }: {
   soundSource: model.SoundSource,
   audioBuffer: AudioBuffer | null,
   play: boolean,
+  showCones: boolean,
 }) => {
-  const [showField, setShowField] = useState(false)
-  
   const rotationEuler = useTBEuler()
   
   const listener = useContext(listenerContext)
@@ -56,13 +56,13 @@ export const SoundSource = ({
       position={soundSource.position}
       rotation={orientationYPToEuler(soundSource.orientation, rotationEuler)}
     >
-      <PlaceholderSpeaker onClick={() => setShowField(curr => !curr)} />
+      <PlaceholderSpeaker onClick={() => { /* TODO */} } />
       <positionalAudio
         args={[listener]}
         ref={positionalAudioRef}
         rotation={[0, Math.PI/2, 0]}
       />
-      <AudioField soundSource={soundSource} visible={showField} />
+      <AudioField soundSource={soundSource} visible={showCones} />
       {/* other elements like gizmos go here, under the same transform */}
     </group>
   )

@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from 'react'
-import { Color, Group, Mesh, ShaderMaterial, Vector3 } from 'three'
+import { Color, Group, Material, Mesh, ShaderMaterial, Vector3 } from 'three'
 import * as model from 'model/model'
 import { orientationYPToEuler } from 'model/math'
 import { useEuler } from 'scene3d/useMathStructs'
@@ -20,12 +20,14 @@ type SoundSourceUniform = {
   color: Color,
 }
 
-export const AudioShader = ({
-  renderScene,
+export const HeatmapRenderer = ({
+  sceneGroup,
   soundSources,
+  showHeatmap,
 }: {
-  renderScene: Group,
+  sceneGroup: Group,
   soundSources: model.SoundSource[],
+  showHeatmap: boolean,
 }) => {
   // allocate uniforms memory once per mount
   const uniforms: Uniforms = useMemo(() => ({
@@ -39,11 +41,17 @@ export const AudioShader = ({
       color: new Color(),
     })) }
   }), [])
-  const audioMaterial = useMemo(() => new ShaderMaterial({
+  
+  const heatmapMaterial = useMemo(() => new ShaderMaterial({
     vertexShader,
     fragmentShader,
     uniforms
   }), [uniforms])
+  useEffect(() => {
+    // cleanup
+    return () => { heatmapMaterial.dispose() }
+  }, [heatmapMaterial])
+  
   
   // every render, update uniform values
   const eulerLocal = useEuler()
@@ -68,21 +76,33 @@ export const AudioShader = ({
   })
   // TODO if structs in state are changed to mutable, add a useFrame updater
   
+  
+  // save the old, default materials to switch later
+  const oldMaterials = useMemo(() => {
+    const materialsMap = new Map<Mesh, Material | Material[]>()
+    // for each node in the subtree:
+    sceneGroup.traverse(node => {
+      const mesh = node as Mesh
+      if (!mesh.isMesh) return;
+      // for each mesh...
+      
+      // save the old material for switching back
+      materialsMap.set(mesh, mesh.material)
+    })
+    return materialsMap
+  }, [sceneGroup])
+  
+  // apply the current material selection (heatmap vs original)
   useEffect(() => {
-    renderScene.traverse(node => {
+    sceneGroup.traverse(node => {
       const mesh = node as Mesh
       if (!mesh.isMesh) return;
       
-      // save the old material for switching back
-      const oldMaterial = mesh.material
-      
-      // testing with basic shading
-      // mesh.material = new MeshPhongMaterial({ color: new Color(1,1,1) })
-      
-      mesh.material = audioMaterial
+      mesh.material = showHeatmap ? heatmapMaterial : oldMaterials.get(mesh)!
     })
-  }, [renderScene])
-  return <primitive object={renderScene} />
+  }, [showHeatmap, sceneGroup, oldMaterials, heatmapMaterial])
+  
+  return <primitive object={sceneGroup} />
 }
 
 

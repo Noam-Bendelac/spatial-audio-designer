@@ -4,7 +4,7 @@ import { Vector3 } from 'three'
 
 
 
-export const initialScene: model.Scene = {
+export const initialScenes: model.Scene[] = [{
   soundSources: [{
     name: 'speaker 1',
     position: new Vector3(2,0.5,1),
@@ -32,4 +32,18 @@ export const initialScene: model.Scene = {
     level: 1,
     soundClip: audioFiles.melody,
   }],
-}
+}, { soundSources: [{
+  name: 'speaker 2',
+  position: new Vector3(-2,0.5,-1),
+  orientation: {
+    yaw: -70,
+    pitch: 45,
+  },
+  coneInnerAngle: 30,
+  coneOuterAngle: 60,
+  coneOuterGain: 0,
+  refDistance: 3,
+  level: 1,
+  soundClip: audioFiles.melody,
+}]}]
+

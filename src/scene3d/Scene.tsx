@@ -12,16 +12,15 @@ import { listenerContext } from 'scene3d/listenerContext'
 import { SyncPromise } from 'SyncPromise'
 import styles from 'ui/App.module.css'
 import { AudioShader } from 'scene3d/AudioShader'
+import { useMemoCompare } from 'useMemoCompare'
 
 
 
 export const Scene = ({ 
   scene,
-  loop,
   className,
 }: {
   scene: model.Scene,
-  loop: boolean,
   className?: string,
 }) => {
   
@@ -31,7 +30,7 @@ export const Scene = ({
   return <Suspense fallback={<div className={styles.loading}>Loading...</div>}>
     <div className={classNames(className)}>
       <Canvas frameloop={'demand'}>
-        <SceneContents scene={scene} loop={loop} />
+        <SceneContents scene={scene} />
       </Canvas>
     </div>
   </Suspense>
@@ -39,11 +38,8 @@ export const Scene = ({
 
 
 // this separation from Scene is needed to be able to use threejs hooks
-const SceneContents = ({ scene, loop }: {
-  scene: model.Scene,
-  loop: boolean,
-}) => {
-  useLimitFramerate(loop)
+const SceneContents = ({ scene }: { scene: model.Scene }) => {
+  useLimitFramerate(true)
   
   // place listener (where spatial audio is "measured") where camera is
   const camera = useThree(state => state.camera)
@@ -80,16 +76,37 @@ const SceneContents = ({ scene, loop }: {
 
 
 const useAudioClips = (urls: (string | null)[]) => {
+  // since urls is recomputed every render, memoize it by a deep comparison to
+  // avoid extraneous setStates/rerenders
+  const urlsMemo = useMemoCompare(urls, (previous, next) => {
+    // return true if equal
+    if (!previous) return false
+    if (previous.length !== next.length) return false
+    return previous.every((prevUrl, idx) => {
+      const nextUrl = next[idx]
+      return prevUrl === nextUrl
+    })
+  })
+  
   // mutable map of loading/loaded audio clips
   const audioClips = useMemo(() => new Map<string, SyncPromise<AudioBuffer>>(), [])
   const [audioReady, setAudioReady] = useState(false)
   const loader = useMemo(() => new AudioLoader(), [])
   useEffect(() => {
-    urls.forEach(url => {
+    urlsMemo.forEach(url => {
       if (!url) return
       if (!audioClips.has(url)) {
         // hasn't already started loading; add it to the map
         audioClips.set(url, new SyncPromise(loader.loadAsync(url)))
+        // TODO: memory leak that's not a problem with our small demo:
+        // if the scene is completely changed out and there are all new urls,
+        // the old audio buffers are still stored in audioClips. it would be
+        // better to make a new map or the new urls, copy the urls it has in
+        // common with the old map, and load the new urls; then the old urls
+        // with no reference will be GCed
+        
+        // stop playing audio while loading
+        setAudioReady(false)
       }
     })
     
@@ -97,11 +114,7 @@ const useAudioClips = (urls: (string | null)[]) => {
       // rerender only when all clips are done loading
       setAudioReady(true)
     })
-    
-    // purposefully leave out scene dependency to only load once;
-    // this would break if adding/removing sound sources or changing the filename
-    // were added
-  }, [audioClips, loader])
+  }, [urlsMemo, audioClips, loader])
   
   return { audioClips, audioReady }
 }

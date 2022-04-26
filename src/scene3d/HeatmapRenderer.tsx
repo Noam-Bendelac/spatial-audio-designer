@@ -43,7 +43,8 @@ export const HeatmapRenderer = ({
       refDistance: 0,
       color: new Color(),
     })) },
-    gamma: { value: 1.0 },
+    // increase contrast between bright and dark
+    gamma: { value: 0.9 },
   }), [])
   
   const heatmapMaterial = useMemo(() => new ShaderMaterial({
@@ -161,6 +162,7 @@ void main() {
     float rolloffFactor = 1.0;
     float refDist = soundSource.refDistance;
     float distanceCoeff = refDist / (refDist + rolloffFactor * (max(distToSource, refDist) - refDist));
+    // increase contrast between bright and dark
     distanceCoeff = pow(distanceCoeff, 1.0 / 0.8);
     
     // to find angle away from source's axis:
@@ -181,12 +183,17 @@ void main() {
         1.0
       )
     );
+    // increase contrast between bright and dark
+    angularCoeff = pow(angularCoeff, 1.0 / 0.7);
     
     sumOfColors += soundSource.color * (distanceCoeff * angularCoeff);
   }
   
-  vec3 averageOfColors = sumOfColors / float(numSoundSources);
-  vec3 adjustedColor = 3.5 * pow(averageOfColors, vec3(1.0/gamma));
+  // average the colors to prevent clipping when there are many sound sources
+  // overlapping; however, when there are many sound sources in the scene, they
+  // don't always overlap, so approximate the overlapping sources as sqrt(numSources)
+  vec3 averageOfColors = sumOfColors / sqrt(float(numSoundSources));
+  vec3 adjustedColor = 1.5 * pow(averageOfColors, vec3(1.0/gamma));
   
   gl_FragColor = vec4(adjustedColor, 1);
 }

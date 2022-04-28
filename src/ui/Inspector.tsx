@@ -1,123 +1,220 @@
-import { Dispatch, SetStateAction } from 'react'
-import styles from './App.module.css'
+import { Dispatch } from 'react'
+import styles from './Inspector.module.css'
 import * as model from 'model/model'
 import produce from 'immer'
-import { useTBVector3 } from 'scene3d/useMathStructs'
+import classNames from 'classnames'
 
 
 
 export const Inspector = ({
-  setLoop,
+  onToggleCones,
+  onToggleHeatmap,
+  onToggleScene,
+  onClickSave,
+  selectedSoundIdx,
   selectedSound,
   onChange,
+  className,
 }: {
-  setLoop: Dispatch<SetStateAction<boolean>>,
-  selectedSound: model.SoundSource,
+  onToggleCones: Dispatch<void>,
+  onToggleHeatmap: Dispatch<void>,
+  onToggleScene: Dispatch<void>,
+  onClickSave: Dispatch<void>,
+  selectedSoundIdx: number | null,
+  selectedSound: model.SoundSource | undefined,
   onChange: Dispatch<model.SoundSource>,
+  className?: string,
 }) => {
   // switch between 3 vector references on each update for react-three to notice
   // the mutations
-  const newPos = useTBVector3()
+  // const newPos = useTBVector3()
   
-  return <header className={styles.title}>
-    <p>
-      Sound Options
+  return <aside className={classNames(className, styles.main)}>
+    <h1>
+      Global Options
+    </h1>
+    <div className={styles.buttonsWrapper}>
+      <button onClick={() => onToggleCones()}>Toggle audio field cone visualization</button>
+      <button onClick={() => onToggleHeatmap()}>Toggle audio field heatmap visualization</button>
+    </div>
+    <div className={styles.buttonsWrapper}>
+      <button onClick={() => onToggleScene()}>Toggle between scenes</button>
+      <button onClick={() => onClickSave()}>Save current scene</button>
+    </div>
+    <p className={styles.item}>Audio files may take several seconds to load, please be patient.</p>
+    <h1>
+      Controls
+    </h1>
+    <p className={styles.item}>Left Click - Select/Deselect Sound Source</p>
+    <p className={styles.item}>Left Click + Drag - Rotate Camera</p>
+    <p className={styles.item}>Right Click + Drag - Translate/Move Camera</p>
+    <p className={styles.item}>Scroll - Zoom In/Out</p>
+    <p className={styles.item}>
+      <a
+        className={styles.item}
+        href='https://github.com/Noam-Bendelac/hci-capstone'
+        // new tab
+        target="_blank" rel="noopener noreferrer"
+      >GitHub Repo</a>
     </p>
-    <p className={styles.basic}>
-      X:
-      -5
-      <input
-        type='range'
-        value={selectedSound.position.x}
-        onChange={evt => onChange(produce(selectedSound, draft => {
-          draft.position = newPos
-            .copy(draft.position)
-            .setX(Number.parseFloat(evt.target.value))
-        }))}
-        min='-5'
-        max='5'
-        step='0.2'
-      />
-      5
-    </p>
-    <p className={styles.basic}>
-      Y:
-      -5
-      <input
-        type='range'
-        value={selectedSound.position.y}
-        onChange={evt => onChange(produce(selectedSound, draft => {
-          draft.position = newPos
-            .copy(draft.position)
-            .setY(Number.parseFloat(evt.target.value))
-        }))}
-        min='-5'
-        max='5'
-        step='0.2'
-      />
-      5
-    </p>
-    <p className={styles.basic}>
-      Z:
-      -5
-      <input
-        type='range'
-        value={selectedSound.position.z}
-        onChange={evt => onChange(produce(selectedSound, draft => {
-          draft.position = newPos
-            .copy(draft.position)
-            .setZ(Number.parseFloat(evt.target.value))
-        }))}
-        min='-5'
-        max='5'
-        step='0.2'
-      />
-      5
-    </p>
-    <p className={styles.basic}>
-      Yaw:
-      -180
-      <input
-        type='range'
-        value={selectedSound.orientation.yaw}
-        onChange={evt => onChange(produce(selectedSound, draft => {
-          draft.orientation.yaw = Number.parseFloat(evt.target.value)
-        }))}
-        min='-180'
-        max='180'
-        step='1'
-      />
-      180
-    </p>
-    <p className={styles.basic}>
-      Pitch:
-      -90
-      <input
-        type='range'
-        value={selectedSound.orientation.pitch}
-        onChange={evt => onChange(produce(selectedSound, draft => {
-          draft.orientation.pitch = Number.parseFloat(evt.target.value)
-        }))}
-        min='-90'
-        max='90'
-        step='1'
-      />
-      90
-    </p>
-    <p className={styles.basic}>Inner Length:
-      <input defaultValue={selectedSound.innerLength} type='range' placeholder='Roll' required/>
-    </p>
-    <p className={styles.basic}>Inner Width:
-      <input defaultValue={selectedSound.innerWidth} type='range' placeholder='Roll' required/>
-    </p>
-    <p className={styles.basic}>Outer Length:
-      <input defaultValue={selectedSound.outerLength} type='range' placeholder='Roll' required/>
-    </p>
-    <p className={styles.basic}>Outer Width:
-      <input defaultValue={selectedSound.outerWidth} type='range' placeholder='Roll' required/>
-    </p>
-    <button onClick={() => setLoop(curr => !curr)}>
-      Loop? (Temp)
-    </button>
-  </header>
+    <div className={styles.spacer} />
+    
+    
+    { selectedSoundIdx !== null && selectedSound && <>
+      <h1>
+        Sound Source Options
+      </h1>
+      <h2>{selectedSoundIdx + 1} - {selectedSound.name}</h2>
+      <p className={styles.slider}>
+        X:
+        -5
+        <input
+          type='range'
+          value={selectedSound?.position.x}
+          title={selectedSound?.position.x.toString()}
+          onChange={evt => selectedSound && onChange(produce(selectedSound, draft => {
+            draft.position = draft.position.clone().setX(Number.parseFloat(evt.target.value))
+          }))}
+          min='-5'
+          max='5'
+          step='0.2'
+        />
+        5
+      </p>
+      <p className={styles.slider}>
+        Y:
+        -5
+        <input
+          type='range'
+          value={selectedSound?.position.y}
+          title={selectedSound?.position.y.toString()}
+          onChange={evt => selectedSound && onChange(produce(selectedSound, draft => {
+            draft.position = draft.position.clone().setY(Number.parseFloat(evt.target.value))
+          }))}
+          min='-5'
+          max='5'
+          step='0.2'
+        />
+        5
+      </p>
+      <p className={styles.slider}>
+        Z:
+        -5
+        <input
+          type='range'
+          value={selectedSound?.position.z}
+          title={selectedSound?.position.z.toString()}
+          onChange={evt => selectedSound && onChange(produce(selectedSound, draft => {
+            draft.position = draft.position.clone().setZ(Number.parseFloat(evt.target.value))
+          }))}
+          min='-5'
+          max='5'
+          step='0.2'
+        />
+        5
+      </p>
+      <div className={styles.spacer} />
+      
+      
+      <p className={styles.slider}>
+        Yaw:
+        -180
+        <input
+          type='range'
+          value={selectedSound?.orientation.yaw}
+          title={selectedSound?.orientation.yaw.toString()}
+          onChange={evt => selectedSound && onChange(produce(selectedSound, draft => {
+            draft.orientation.yaw = Number.parseFloat(evt.target.value)
+          }))}
+          min='-180'
+          max='180'
+          step='1'
+        />
+        180
+      </p>
+      <p className={styles.slider}>
+        Pitch:
+        -90
+        <input
+          type='range'
+          value={selectedSound?.orientation.pitch}
+          title={selectedSound?.orientation.pitch.toString()}
+          onChange={evt => selectedSound && onChange(produce(selectedSound, draft => {
+            draft.orientation.pitch = Number.parseFloat(evt.target.value)
+          }))}
+          min='-90'
+          max='90'
+          step='1'
+        />
+        90
+      </p>
+      <div className={styles.spacer} />
+      
+      
+      <p className={styles.slider}>
+        Cone inner angle:
+        0
+        <input
+          type='range'
+          value={selectedSound?.coneInnerAngle}
+          title={selectedSound?.coneInnerAngle.toString()}
+          onChange={evt => selectedSound && onChange(produce(selectedSound, draft => {
+            draft.coneInnerAngle = Number.parseFloat(evt.target.value)
+          }))}
+          min='0'
+          max='360'
+          step='1'
+        />
+        360
+      </p>
+      <p className={styles.slider}>
+        Cone outer angle:
+        0
+        <input
+          type='range'
+          value={selectedSound?.coneOuterAngle}
+          title={selectedSound?.coneOuterAngle.toString()}
+          onChange={evt => selectedSound && onChange(produce(selectedSound, draft => {
+            draft.coneOuterAngle = Number.parseFloat(evt.target.value)
+          }))}
+          min='0'
+          max='360'
+          step='1'
+        />
+        360
+      </p>
+      <p className={styles.slider}>
+        Cone outer level:
+        0
+        <input
+          type='range'
+          value={selectedSound?.coneOuterGain}
+          title={selectedSound?.coneOuterGain.toString()}
+          onChange={evt => selectedSound && onChange(produce(selectedSound, draft => {
+            draft.coneOuterGain = Number.parseFloat(evt.target.value)
+          }))}
+          min='0'
+          max='1'
+          step='.01'
+        />
+        1
+      </p>
+      <p className={styles.slider}>
+        Cone attenuation distance:
+        0
+        <input
+          type='range'
+          value={selectedSound?.refDistance}
+          title={selectedSound?.refDistance.toString()}
+          onChange={evt => selectedSound && onChange(produce(selectedSound, draft => {
+            draft.refDistance = Number.parseFloat(evt.target.value)
+          }))}
+          min='0'
+          max='5'
+          step='0.2'
+        />
+        5
+      </p>
+    </>}
+  </aside>
 }

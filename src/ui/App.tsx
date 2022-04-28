@@ -1,82 +1,101 @@
-import { useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Scene } from 'scene3d/Scene'
 import * as model from 'model/model'
-import logo from './logo.svg'
 import styles from './App.module.css'
-import { Vector3 } from 'three'
 import { Inspector } from 'ui/Inspector'
 import { useImmer } from 'use-immer'
+import { initialScenes } from 'initialScene'
 
 export const App = () => {
-  // pause looping during development for performance
-  const [loop, setLoop] = useState(true)
-
-  const [hideSoundMenu, setHideSoundMenu] = useState(false);
+  // the webaudio api won't allow the app to play audio if the user hasn't
+  // interacted with the page first: https://developer.chrome.com/blog/autoplay/#web-audio
+  // this is to prevent intrusive autoplay
+  const [started, setStarted] = useState(false)
   
-  // placeholder initial scene
-  const [scene, setScene] = useImmer<model.Scene>(() => ({
-    viewerCameraStart: {
-      position: new Vector3(0, 0, 0),
-      orientation: {
-        yaw: 0,
-        pitch: 0,
-      },
-    },
-    object3Ds: [{
-      name: 'object 1',
-      position: new Vector3(5,5,-20),
-      orientation: {
-        yaw: 0,
-        pitch: 0,
-        roll: 0,
-      },
-      mesh: null,
-    }],
-    soundSources: [{
-      name: 'speaker 1',
-      position: new Vector3(0,1,0),
-      orientation: {
-        yaw: 0,
-        pitch: 0,
-      },
-      innerLength: 2,
-      innerWidth: 0,
-      outerLength: 0,
-      outerWidth: 0,
-      level: 1,
-      soundClip: null,
-      speed: 1,
-      start: 0,
-      stop: 1,
-      convolution: 'none',
-    }],
-  }))
+  const [showCones, setShowCones] = useState(false)
+  const [showHeatmap, setShowHeatmap] = useState(true)
   
-  // eventually this will be the currently selected (clicked) scene element
-  // const selectedElement = scene.object3Ds[0]
-  const selectedSound = scene.soundSources[0]
-
-  //
+  // current "template"/starting scene
+  const [templateSceneIdx, setTemplateSceneIdx] = useState(0)
+  // scene state
+  const [scene, setScene] = useImmer<model.Scene>(initialScenes[templateSceneIdx])
+  useEffect(() => {
+    setScene(initialScenes[templateSceneIdx])
+  }, [templateSceneIdx, setScene])
+  
+  const onClickSave = useOnClickSave(scene)
+  
+  const [selectedSoundIdx, setSelectedSoundIdx] = useState<number | null>(0)
+  const selectedSound: model.SoundSource | undefined = useMemo(() => (
+    selectedSoundIdx === null ? undefined : scene.soundSources[selectedSoundIdx]
+  ), [scene, selectedSoundIdx])
   
   return (
     <div className={styles.app}>
-      <Scene scene={scene} loop={loop} className={styles.canvas} />
-
-      <button className={styles.buttons} onClick={() => hideSoundMenu ? setHideSoundMenu(false) : setHideSoundMenu(true)}>Sound Source Menu</button>
-      {/* sound menu */}
-      <div className={hideSoundMenu ? styles.sidebar : styles.invisible}> {/**hideSoundMenu */}
-        <Inspector
-          setLoop={setLoop}
-          selectedSound={selectedSound}
-          onChange={newSoundSource => setScene(draft => {
-            draft.soundSources[0] = newSoundSource
-          })}
+      { started
+      ? <Scene
+          className={styles.canvas}
+          scene={scene}
+          showCones={showCones}
+          showHeatmap={showHeatmap}
+          selectedSoundIdx={selectedSoundIdx}
+          setSelectedSoundIdx={setSelectedSoundIdx}
         />
-      </div>
+      : <div
+          className={styles.loadingWrapper}
+          onClick={() => setStarted(true)}
+        ><p className={styles.loading}>Click to load app</p></div>
+      }
+      {/* sound menu */}
+      <Inspector
+        className={styles.sidebar}
+        onToggleCones={() => setShowCones(curr => !curr)}
+        onToggleHeatmap={() => setShowHeatmap(curr => !curr)}
+        onToggleScene={() => { setTemplateSceneIdx(curr => (curr + 1) % initialScenes.length) }}
+        onClickSave={onClickSave}
+        selectedSoundIdx={selectedSoundIdx}
+        selectedSound={selectedSound}
+        onChange={newSoundSource => setScene(draft => {
+          if (selectedSoundIdx !== null) draft.soundSources[selectedSoundIdx] = newSoundSource
+        })}
+      />
       
       
     </div>
   )
+}
+
+
+const useOnClickSave = (scene: model.Scene) => {
+  const onClickSave = useCallback(() => {
+    const textContent = JSON.stringify(scene, undefined, 2)
+    const blob = new Blob([textContent], { type: 'text/plain;charset=utf-8' })
+    
+    // reference https://github.com/eligrey/FileSaver.js/blob/master/src/FileSaver.js
+    const a = document.createElement('a')
+    const filename = `scene-${currTimeForFilename()}.json`
+    a.download = filename
+    a.rel = 'noopener'
+    a.href = URL.createObjectURL(blob)
+    a.click()
+    setTimeout(() => { URL.revokeObjectURL(a.href) }, 0)
+  }, [scene])
+  
+  return onClickSave
+}
+
+const currTimeForFilename = () => {
+  // creates a filename-safe string for the current time
+  // https://stackoverflow.com/questions/44484882/download-with-current-user-time-as-filename
+  const now = new Date();
+  const y = now.getFullYear();
+  // JavaScript months are 0-based.
+  const m = now.getMonth() + 1;
+  const d = now.getDate();
+  const h = now.getHours();
+  const mi = now.getMinutes();
+  const s = now.getSeconds();
+  return `${y}-${m}-${d}-${h}-${mi}-${s}`;
 }
 
 

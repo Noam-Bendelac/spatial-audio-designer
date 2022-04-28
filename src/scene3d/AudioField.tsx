@@ -3,63 +3,37 @@ import * as model from 'model/model'
 import { useThree } from '@react-three/fiber'
 import { useState, useEffect } from 'react'
 import { deg2rad } from 'model/math'
+import { DoubleSide } from 'three'
 
 
 
-export const AudioField = ({ soundSource }: { soundSource: model.SoundSource }) => {
-  const { camera } = useThree();
-  const [clicked, setClicked] = useState(false)
-  const [sound, setSound] = useState<THREE.PositionalAudio | null>(null)
-
-  useEffect(
-    () => {
-      const listener = new THREE.AudioListener()
-      camera.add(listener)    
-      const soundObject = new THREE.PositionalAudio(listener)
-      soundObject.setRefDistance(soundSource.innerLength)
-      soundObject.setVolume(.2)
-      soundObject.setDirectionalCone(90, 100, 0)
-      soundObject.setMaxDistance(soundSource.innerLength * 5)
-      setSound(soundObject)
-    }, [camera]
-  )
-  useEffect(
-    () => {
-      const audioLoader = new THREE.AudioLoader()
-      audioLoader.load('../../assets/melody.mp3', function(buffer) {
-        sound?.setBuffer(buffer)
-      })            
-    }, [sound]
-  )
-  useEffect(
-    () => {
-      if (clicked) {
-        sound?.play()
-      }
-      else {
-        sound?.pause()
-      }
-    }, [clicked]
-  )
-  
-  return <>
-    {/* this actually places the sound source (that makes the audio) into the scene
-      in the right position */}
-    {sound && <group rotation={[0, Math.PI/2, 0]}>
-      <primitive object={sound} />
-    </group>}
-    {/* this simply places the visuals in the scene */}
-    {sound && <mesh
-      scale={1}
-      visible={clicked ? true : false}
+export const AudioField = ({
+  soundSource,
+  visible,
+}: {
+  soundSource: model.SoundSource,
+  visible: boolean,
+}) => {
+  const maxLength = 20
+  return <group
+    scale={1}
+    visible={visible}
+  >
+    <mesh
+      position={[maxLength / 2, 0, 0]}
       rotation={[0, 0, Math.PI/2]}
-      position={[soundSource.innerLength / 2, 0, 0]}
-      onClick={() => setClicked(!clicked)}
     >
-      <ConeAngleGeometry angle={90} height={soundSource.innerLength} />
-      <meshPhongMaterial color='red' opacity={0.2} transparent={true}/>
-    </mesh>}
-  </>
+      <ConeAngleGeometry angle={soundSource.coneOuterAngle} height={maxLength} />
+      <meshPhongMaterial color='red' opacity={0.08} transparent={true} side={DoubleSide} />
+    </mesh>
+    <mesh
+      position={[soundSource.refDistance / 2, 0, 0]}
+      rotation={[0, 0, Math.PI/2]}
+    >
+      <ConeAngleGeometry angle={soundSource.coneInnerAngle} height={soundSource.refDistance} />
+      <meshPhongMaterial color='red' opacity={0.1} transparent={true} side={DoubleSide} />
+    </mesh>
+  </group>
 }
 
 

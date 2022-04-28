@@ -13,32 +13,25 @@ import { Vector3 } from 'three'
 // it does not include all application state, such as editing camera location
 export interface Scene {
   readonly soundSources: SoundSource[],
-  readonly viewerCameraStart: DOF5,
 }
 
 export interface SoundSource extends DOF5 {
   readonly name: string,
   
-  // TODO this is for X3D Sound node (ellipsoid), change to web audio cone-based
   // spatialized source
-  readonly outerLength: number,
-  readonly outerWidth: number,
-  readonly innerLength: number,
-  readonly innerWidth: number,
+  // in degrees
+  readonly coneInnerAngle: number,
+  readonly coneOuterAngle: number,
+  // linear amplitude at edge/outside cone
+  readonly coneOuterGain: number,
+  // distance used for distance attenuation; sound diminishes but can still be
+  // heard beyond this distance
+  readonly refDistance: number,
   
   // filename of asset; TODO might change
   readonly soundClip: string | null,
   readonly level: number,
-  readonly speed: number,
-  readonly start: number,
-  readonly stop: number,
-  readonly convolution: ConvolutionSpace,
 }
-
-// TODO add more
-type ConvolutionSpace =
-  | 'none'
-  | 'cathedral'
 
 
 

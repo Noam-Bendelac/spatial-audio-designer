@@ -10,27 +10,27 @@ export const initialScenes: model.Scene[] = [
     "soundSources": [
       {
         "name": "Kick",
-        "position": new Vector3(
+        "position": new Vector3 (
           -1.6,
-          0.8,
+          0.6,
           1.6
         ),
         "orientation": {
           "yaw": 70,
           "pitch": 5
         },
-        "coneInnerAngle": 80,
+        "coneInnerAngle": 120,
         "coneOuterAngle": 187,
-        "coneOuterGain": 0,
-        "refDistance": 2.6,
+        "coneOuterGain": 0.13,
+        "refDistance": 3.2,
         "level": 1,
         "soundClip": audioFiles.song.track_1_Kick
       },
       {
         "name": "Snare",
-        "position": new Vector3(
+        "position": new Vector3 (
           0.4,
-          0.8,
+          0.4,
           1.4
         ),
         "orientation": {
@@ -46,7 +46,7 @@ export const initialScenes: model.Scene[] = [
       },
       {
         "name": "Clap",
-        "position": new Vector3(
+        "position": new Vector3 (
           1,
           0.8,
           -2
@@ -66,7 +66,7 @@ export const initialScenes: model.Scene[] = [
         "name": "Perc",
         "position": new Vector3(
           -1.4,
-          0.8,
+          0.4,
           -2.2
         ),
         "orientation": {
@@ -82,17 +82,17 @@ export const initialScenes: model.Scene[] = [
       },
       {
         "name": "Hat",
-        "position": new Vector3(
+        "position": new Vector3 (
           -0.8,
-          0.8,
+          0.6,
           1.6
         ),
         "orientation": {
           "yaw": 72,
           "pitch": 5
         },
-        "coneInnerAngle": 30,
-        "coneOuterAngle": 60,
+        "coneInnerAngle": 72,
+        "coneOuterAngle": 128,
         "coneOuterGain": 0,
         "refDistance": 3,
         "level": 1,
@@ -100,7 +100,7 @@ export const initialScenes: model.Scene[] = [
       },
       {
         "name": "Cymbal",
-        "position": new Vector3(
+        "position": new Vector3 (
           2,
           0.5,
           1.4
@@ -118,7 +118,7 @@ export const initialScenes: model.Scene[] = [
       },
       {
         "name": "Bass",
-        "position": new Vector3(
+        "position": new Vector3 (
           5,
           0.4,
           -0.8
@@ -136,9 +136,9 @@ export const initialScenes: model.Scene[] = [
       },
       {
         "name": "Pad1",
-        "position": new Vector3(
-          -5,
-          0.8,
+        "position": new Vector3 (
+          -4.4,
+          0.6,
           -1.8
         ),
         "orientation": {
@@ -148,13 +148,13 @@ export const initialScenes: model.Scene[] = [
         "coneInnerAngle": 30,
         "coneOuterAngle": 69,
         "coneOuterGain": 0,
-        "refDistance": 0.6,
+        "refDistance": 1.6,
         "level": 1,
         "soundClip": audioFiles.song.track_10_Pad1
       },
       {
         "name": "Sub",
-        "position": new Vector3(
+        "position": new Vector3 (
           5,
           0.5,
           0
@@ -172,9 +172,9 @@ export const initialScenes: model.Scene[] = [
       },
       {
         "name": "Noise",
-        "position": new Vector3(
+        "position": new Vector3 (
           -5,
-          1,
+          0.4,
           -0.8
         ),
         "orientation": {
@@ -184,31 +184,31 @@ export const initialScenes: model.Scene[] = [
         "coneInnerAngle": 30,
         "coneOuterAngle": 60,
         "coneOuterGain": 0,
-        "refDistance": 0.5,
+        "refDistance": 1,
         "level": 1,
         "soundClip": audioFiles.song.track_12_Noise
       },
       {
         "name": "Chimes",
-        "position": new Vector3(
+        "position": new Vector3 (
           -1,
           5,
-          -3.6
+          -3
         ),
         "orientation": {
           "yaw": -68,
           "pitch": -63
         },
         "coneInnerAngle": 76,
-        "coneOuterAngle": 110,
+        "coneOuterAngle": 126,
         "coneOuterGain": 0,
-        "refDistance": 3,
+        "refDistance": 4.4,
         "level": 1,
         "soundClip": audioFiles.song.track_13_Chimes
       },
       {
         "name": "Pad2",
-        "position": new Vector3(
+        "position": new Vector3 (
           -5,
           0.4,
           0.4
@@ -220,25 +220,25 @@ export const initialScenes: model.Scene[] = [
         "coneInnerAngle": 39,
         "coneOuterAngle": 73,
         "coneOuterGain": 0.05,
-        "refDistance": 1.2,
+        "refDistance": 1.4,
         "level": 1,
         "soundClip": audioFiles.song.track_14_Pad2
       },
       {
         "name": "Pad3",
-        "position": new Vector3(
+        "position": new Vector3 (
           -4.8,
-          0.8,
+          0.6,
           1
         ),
         "orientation": {
           "yaw": 16,
           "pitch": 5
         },
-        "coneInnerAngle": 30,
+        "coneInnerAngle": 50,
         "coneOuterAngle": 117,
         "coneOuterGain": 0,
-        "refDistance": 0.4,
+        "refDistance": 3.8,
         "level": 1,
         "soundClip": audioFiles.song.track_15_Pad3
       }

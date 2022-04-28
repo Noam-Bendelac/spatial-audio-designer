@@ -163,7 +163,7 @@ void main() {
     float refDist = soundSource.refDistance;
     float distanceCoeff = refDist / (refDist + rolloffFactor * (max(distToSource, refDist) - refDist));
     // increase contrast between bright and dark
-    distanceCoeff = pow(distanceCoeff, 1.0 / 0.8);
+    distanceCoeff = pow(distanceCoeff, 1.0 / 0.7);
     
     // to find angle away from source's axis:
     // dot product = mag1*mag2*cos(theta)
@@ -194,6 +194,15 @@ void main() {
   // don't always overlap, so approximate the overlapping sources as sqrt(numSources)
   vec3 averageOfColors = sumOfColors / sqrt(float(numSoundSources));
   vec3 adjustedColor = 1.5 * pow(averageOfColors, vec3(1.0/gamma));
+  
+  // soft clip
+  // idk if luminance is the right word for this, or if this is the right way
+  // to calculate luminance
+  float adjustedColorLum = length(adjustedColor);
+  // max lum is pure white sqrt(1^2 + 1^2 + 1^2)
+  float threshold = sqrt(3.0);
+  float factor = threshold*tanh(adjustedColorLum/threshold) / adjustedColorLum;
+  adjustedColor *= factor;
   
   gl_FragColor = vec4(adjustedColor, 1);
 }

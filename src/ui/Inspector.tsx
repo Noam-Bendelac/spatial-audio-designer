@@ -30,7 +30,6 @@ export const Inspector = ({
   // const newPos = useTBVector3()
   
   return <aside className={classNames(className, styles.main)}>
-    <div className={styles.spacer} />
     <h1>
       Global Options
     </h1>
@@ -42,6 +41,16 @@ export const Inspector = ({
       <button onClick={() => onToggleScene()}>Toggle between scenes</button>
       <button onClick={() => onClickSave()}>Save current scene</button>
     </div>
+    <p className={styles.item}>Audio files may take several seconds to load, please be patient.</p>
+    <p className={styles.item}>(controls...)</p>
+    <p className={styles.item}>
+      <a
+        className={styles.item}
+        href='https://github.com/Noam-Bendelac/hci-capstone'
+        // new tab
+        target="_blank" rel="noopener noreferrer"
+      >GitHub Repo</a>
+    </p>
     <div className={styles.spacer} />
     
     

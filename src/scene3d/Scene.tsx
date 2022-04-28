@@ -4,7 +4,7 @@ import { useEffect, Suspense, useMemo, useState, Dispatch } from 'react'
 import * as model from 'model/model'
 import { SoundSource } from 'scene3d/SoundSource'
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
-import { Environment } from '@react-three/drei'
+import { Environment, Html } from '@react-three/drei'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { useLimitFramerate } from 'scene3d/useFramerate'
 import { AudioListener, AudioLoader } from 'three'
@@ -99,6 +99,7 @@ const SceneContents = ({
         selected={selectedSoundIdx === idx}
         onClick={() => setSelectedSoundIdx(idx)}
       />)}
+      { !audioReady && <Html center>Audio is loading...</Html> }
     </listenerContext.Provider>
   </>
 }

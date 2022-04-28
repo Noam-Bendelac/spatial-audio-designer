@@ -33,7 +33,7 @@ export const useLimitFramerate = (loop: boolean) => {
     // source: https://stackoverflow.com/a/51942991
     const clock = new Clock()
     let delta = 0
-    const fps = 30
+    const fps = 60
     
     const mutableId: { id?: number } = { }
     const render = () => {

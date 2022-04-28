@@ -52,7 +52,7 @@ export const Inspector = ({
     <p className={styles.item}>
       <a
         className={styles.item}
-        href='https://github.com/Noam-Bendelac/hci-capstone'
+        href='https://github.com/Noam-Bendelac/spatial-audio-designer'
         // new tab
         target="_blank" rel="noopener noreferrer"
       >GitHub Repo</a>

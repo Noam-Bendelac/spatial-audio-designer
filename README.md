@@ -7,6 +7,12 @@ Spatialized audio capstone project for CS 4784 HCI Capstone.
 
 We used Netlify to easily deploy our frontend-only app.
 
+## VTURCS materials
+
+[Poster](https://docs.google.com/presentation/d/13qVEhsM0OkIa9-9OkGx12_eyJ6jsAxCQz2OHndJdqfs/edit?usp=sharing)
+
+[Abstract](https://docs.google.com/document/d/1LY3rAFOMcKGeGsGDiRECpkFZge2rzzq6rjQQqoMpVrM/edit?usp=sharing)
+
 ## Development and Libraries
 
 We utilized the Web Audio API and Web3D technologies through the [Three.js](https://www.npmjs.com/package/three)

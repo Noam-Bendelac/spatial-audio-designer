@@ -18,19 +18,19 @@ export const audioFiles = {
   melody: '/assets/melody.mp3',
   // song by Noam Bendelac
   song: {
-    track_1_Kick:    '/assets/song/ss21_4_tracks_1_Kick.wav',
-    track_2_Snare:   '/assets/song/ss21_4_tracks_2_Snare.wav',
-    track_3_Clap:    '/assets/song/ss21_4_tracks_3_Clap.wav',
-    track_4_Perc:    '/assets/song/ss21_4_tracks_4_Perc.wav',
-    track_5_Hat:     '/assets/song/ss21_4_tracks_5_Hat.wav',
-    track_6_Cymbal:  '/assets/song/ss21_4_tracks_6_Cymbal.wav',
-    track_9_Bass:    '/assets/song/ss21_4_tracks_9_Bass.wav',
-    track_10_Pad1:   '/assets/song/ss21_4_tracks_10_Pad1.wav',
-    track_11_Sub:    '/assets/song/ss21_4_tracks_11_Sub.wav',
-    track_12_Noise:  '/assets/song/ss21_4_tracks_12_Noise.wav',
-    track_13_Chimes: '/assets/song/ss21_4_tracks_13_Chimes.wav',
-    track_14_Pad2:   '/assets/song/ss21_4_tracks_14_Pad2.wav',
-    track_15_Pad3:   '/assets/song/ss21_4_tracks_15_Pad3.wav',
+    track_1_Kick:    '/assets/song/ss21_4_tracks_1_Kick.mp3',
+    track_2_Snare:   '/assets/song/ss21_4_tracks_2_Snare.mp3',
+    track_3_Clap:    '/assets/song/ss21_4_tracks_3_Clap.mp3',
+    track_4_Perc:    '/assets/song/ss21_4_tracks_4_Perc.mp3',
+    track_5_Hat:     '/assets/song/ss21_4_tracks_5_Hat.mp3',
+    track_6_Cymbal:  '/assets/song/ss21_4_tracks_6_Cymbal.mp3',
+    track_9_Bass:    '/assets/song/ss21_4_tracks_9_Bass.mp3',
+    track_10_Pad1:   '/assets/song/ss21_4_tracks_10_Pad1.mp3',
+    track_11_Sub:    '/assets/song/ss21_4_tracks_11_Sub.mp3',
+    track_12_Noise:  '/assets/song/ss21_4_tracks_12_Noise.mp3',
+    track_13_Chimes: '/assets/song/ss21_4_tracks_13_Chimes.mp3',
+    track_14_Pad2:   '/assets/song/ss21_4_tracks_14_Pad2.mp3',
+    track_15_Pad3:   '/assets/song/ss21_4_tracks_15_Pad3.mp3',
   }
 }
 

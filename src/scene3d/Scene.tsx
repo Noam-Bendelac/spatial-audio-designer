@@ -1,10 +1,10 @@
 import classNames from 'classnames'
-import { Canvas, useThree, useLoader } from '@react-three/fiber'
+import { Canvas, useThree, useLoader, useFrame } from '@react-three/fiber'
 import { useEffect, Suspense, useMemo, useState, Dispatch } from 'react'
 import * as model from 'model/model'
 import { SoundSource } from 'scene3d/SoundSource'
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
-import { Environment, Html } from '@react-three/drei'
+import { Environment, FlyControls, Html } from '@react-three/drei'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { useLimitFramerate } from 'scene3d/useFramerate'
 import { AudioListener, AudioLoader } from 'three'
@@ -184,21 +184,23 @@ const useGltf = (src: string) => {
 
 
 const CameraController = () => {
-  const { camera, gl } = useThree();
-  useEffect(
-    () => {
-      const controls = new OrbitControls(camera, gl.domElement)
-
-      controls.maxDistance = 100
-      camera.position.set(0, 5, -1)
-      controls.update()
-      return () => {
-        controls.dispose()
-      }
-    },
-    [camera, gl]
-  )
-  return null
+  const { camera } = useThree();
+  
+  useEffect(() => {
+    camera.position.set(0,1.2,0)
+    camera.rotation.order = 'YXZ'
+  }, [camera])
+  
+  useFrame(() => {
+    camera.rotation.z = 0
+    camera.rotation.x = Math.min(Math.PI*0.4, Math.max(-Math.PI*0.4, camera.rotation.x))
+  })
+  
+  return <FlyControls
+    dragToLook
+    movementSpeed={2}
+    rollSpeed={0.3}
+  />
 }
 
 

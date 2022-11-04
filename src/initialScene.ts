@@ -20,8 +20,8 @@ export const initialScenes: model.Scene[] = [
           "pitch": 5
         },
         "coneInnerAngle": 120,
-        "coneOuterAngle": 187,
-        "coneOuterGain": 0.13,
+        "coneOuterAngle": 195,
+        "coneOuterGain": 1,
         "refDistance": 3.2,
         "level": 1,
         "soundClip": audioFiles.song.track_1_Kick
@@ -39,8 +39,8 @@ export const initialScenes: model.Scene[] = [
         },
         "coneInnerAngle": 30,
         "coneOuterAngle": 97,
-        "coneOuterGain": 0,
-        "refDistance": 3,
+        "coneOuterGain": 0.88,
+        "refDistance": 1.8,
         "level": 1,
         "soundClip": audioFiles.song.track_2_Snare
       },
@@ -56,9 +56,9 @@ export const initialScenes: model.Scene[] = [
           "pitch": 5
         },
         "coneInnerAngle": 30,
-        "coneOuterAngle": 66,
-        "coneOuterGain": 0,
-        "refDistance": 2.6,
+        "coneOuterAngle": 126,
+        "coneOuterGain": 0.72,
+        "refDistance": 2.4,
         "level": 1,
         "soundClip": audioFiles.song.track_3_Clap
       },
@@ -66,17 +66,17 @@ export const initialScenes: model.Scene[] = [
         "name": "Perc",
         "position": new Vector3(
           -1.4,
-          0.4,
+          0.8,
           -2.2
         ),
         "orientation": {
           "yaw": -79,
           "pitch": 5
         },
-        "coneInnerAngle": 30,
-        "coneOuterAngle": 89,
-        "coneOuterGain": 0,
-        "refDistance": 3,
+        "coneInnerAngle": 84,
+        "coneOuterAngle": 215,
+        "coneOuterGain": 0.77,
+        "refDistance": 2.4,
         "level": 1,
         "soundClip": audioFiles.song.track_4_Perc
       },
@@ -93,8 +93,8 @@ export const initialScenes: model.Scene[] = [
         },
         "coneInnerAngle": 72,
         "coneOuterAngle": 128,
-        "coneOuterGain": 0,
-        "refDistance": 3,
+        "coneOuterGain": 1,
+        "refDistance": 2.4,
         "level": 1,
         "soundClip": audioFiles.song.track_5_Hat
       },
@@ -111,8 +111,8 @@ export const initialScenes: model.Scene[] = [
         },
         "coneInnerAngle": 30,
         "coneOuterAngle": 335,
-        "coneOuterGain": 0,
-        "refDistance": 1.4,
+        "coneOuterGain": 1,
+        "refDistance": 2,
         "level": 1,
         "soundClip": audioFiles.song.track_6_Cymbal
       },
@@ -128,7 +128,7 @@ export const initialScenes: model.Scene[] = [
           "pitch": 5
         },
         "coneInnerAngle": 30,
-        "coneOuterAngle": 91,
+        "coneOuterAngle": 102,
         "coneOuterGain": 0.24,
         "refDistance": 5,
         "level": 1,
@@ -147,8 +147,8 @@ export const initialScenes: model.Scene[] = [
         },
         "coneInnerAngle": 30,
         "coneOuterAngle": 69,
-        "coneOuterGain": 0,
-        "refDistance": 1.6,
+        "coneOuterGain": 1,
+        "refDistance": 1.8,
         "level": 1,
         "soundClip": audioFiles.song.track_10_Pad1
       },
@@ -163,8 +163,8 @@ export const initialScenes: model.Scene[] = [
           "yaw": 168,
           "pitch": 5
         },
-        "coneInnerAngle": 30,
-        "coneOuterAngle": 174,
+        "coneInnerAngle": 84,
+        "coneOuterAngle": 353,
         "coneOuterGain": 0,
         "refDistance": 4.2,
         "level": 1,
@@ -183,8 +183,8 @@ export const initialScenes: model.Scene[] = [
         },
         "coneInnerAngle": 30,
         "coneOuterAngle": 60,
-        "coneOuterGain": 0,
-        "refDistance": 1,
+        "coneOuterGain": 1,
+        "refDistance": 2,
         "level": 1,
         "soundClip": audioFiles.song.track_12_Noise
       },
@@ -200,7 +200,7 @@ export const initialScenes: model.Scene[] = [
           "pitch": -63
         },
         "coneInnerAngle": 76,
-        "coneOuterAngle": 126,
+        "coneOuterAngle": 174,
         "coneOuterGain": 0,
         "refDistance": 4.4,
         "level": 1,
@@ -219,14 +219,14 @@ export const initialScenes: model.Scene[] = [
         },
         "coneInnerAngle": 39,
         "coneOuterAngle": 73,
-        "coneOuterGain": 0.05,
-        "refDistance": 1.4,
+        "coneOuterGain": 1,
+        "refDistance": 1.8,
         "level": 1,
         "soundClip": audioFiles.song.track_14_Pad2
       },
       {
         "name": "Pad3",
-        "position": new Vector3 (
+        "position": new Vector3(
           -4.8,
           0.6,
           1
@@ -237,8 +237,8 @@ export const initialScenes: model.Scene[] = [
         },
         "coneInnerAngle": 50,
         "coneOuterAngle": 117,
-        "coneOuterGain": 0,
-        "refDistance": 3.8,
+        "coneOuterGain": 1,
+        "refDistance": 2.8,
         "level": 1,
         "soundClip": audioFiles.song.track_15_Pad3
       }

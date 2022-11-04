@@ -41,18 +41,20 @@ export const Inspector = ({
       <button onClick={() => onToggleScene()}>Toggle between scenes</button>
       <button onClick={() => onClickSave()}>Save current scene</button>
     </div>
-    <p className={styles.item}>Audio files may take several seconds to load, please be patient.</p>
+    <p className={styles.item}>Audio files may take a minute to load, please be patient.</p>
     <h1>
       Controls
     </h1>
-    <p className={styles.item}>Left Click - Select/Deselect Sound Source</p>
-    <p className={styles.item}>Left Click + Drag - Rotate Camera</p>
-    <p className={styles.item}>Right Click + Drag - Translate/Move Camera</p>
-    <p className={styles.item}>Scroll - Zoom In/Out</p>
+    <p className={styles.item}>Left Click - Select/Deselect Sound Source<br/>
+    {/* <p className={styles.item}>Left Click + Drag - Rotate Camera</p> */}
+    {/* <p className={styles.item}>Right Click + Drag - Translate/Move Camera</p> */}
+    WASD - Walk<br/>
+    R/F - Fly Up/Down<br/>
+    Arrow keys - Rotate Camera</p>
     <p className={styles.item}>
       <a
         className={styles.item}
-        href='https://github.com/Noam-Bendelac/spatial-audio-designer'
+        href='https://github.com/Noam-Bendelac/hci-capstone'
         // new tab
         target="_blank" rel="noopener noreferrer"
       >GitHub Repo</a>
